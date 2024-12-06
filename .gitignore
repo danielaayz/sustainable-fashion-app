@@ -1,0 +1,37 @@
+# Node.js
+node_modules/
+dist/
+build/
+
+# .env
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Vite (frontend)
+.vite/
+.vscode/
+.env.local
+.env.development.local
+.env.production.local
+.env
+
+# TypeScript
+*.tsbuildinfo
+
+# Backend
+server/dist/
+server/.env
+
+# MacOS
+.DS_Store
+
+# Swagger Generated Files
+server/swagger.json
+server/swagger.yaml
+
+# Docker
+docker-compose.override.yml
