@@ -40,9 +40,8 @@ Our plan is to create .....
 
 It's quite reminiscent of Scandinavian style and is widely recognised as such outside of Europe. This also adds to the idea that we are also environmentally conscious by utilising that connection.
 
-![sustainability-colour-palette](https://github.com/user-attachments/assets/08771efb-d5b5-4d6b-887d-d9aa1d30c0c6)
+![eco-fabrics](https://github.com/user-attachments/assets/5534efac-e432-42a0-9dd9-a28b58a06d86)
 
-![coolors-palette-option](https://github.com/user-attachments/assets/23168849-6761-4bf4-b540-db54bab1b0bb)
 
  * Inspiration - Here are some pages that we felt resonated with our ideas based off our goal end-user:
 
