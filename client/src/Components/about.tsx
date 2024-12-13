@@ -3,28 +3,25 @@
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import RoundedButton from './rounded-button.tsx'
 
 const navigation = [
-  { name: 'Home', href: '#' },
+  { name: 'Home', href: '/home' },
   { name: 'About', href: '/about' },
-  { name: 'Contact', href: '#' },
+  { name: 'Contact', href: '/contact' },
 ]
 
 export default function About() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="bg-white">
+    <div>
       <header className="absolute inset-x-0 top-0 z-50">
-        <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+        <nav aria-label="Global" className="bg-pale-rose mx-full flex shadow-lg items-center justify-between p-6 lg:px-8">
           <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="#" className="-m-1.5 p-1.5h-8 w-auto bg-mossy-green">
               <span className="sr-only">Fabric Sustainability</span>
-              <img
-                alt=""
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                className="h-8 w-auto"
-              />
+                
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -114,17 +111,12 @@ export default function About() {
                 lorem cupidatat commodo.
               </p>
               <div className="mt-10 flex items-center gap-x-6">
-                <a
-                  href="/about"
-                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Learn more
-                </a>
+                  <RoundedButton />
               </div>
             </div>
             <img
               alt=""
-              src="https://images.unsplash.com/photo-1567532900872-f4e906cbf06a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1280&q=80"
+              src="/assets/images/logo.jpg"
               className="mt-10 aspect-[6/5] w-full max-w-lg rounded-2xl object-cover sm:mt-16 lg:mt-0 lg:max-w-none xl:row-span-2 xl:row-end-2 xl:mt-36"
             />
           </div>
