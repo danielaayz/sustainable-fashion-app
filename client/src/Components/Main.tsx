@@ -1,27 +1,26 @@
-'use client'
-
-import { useState } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import RoundedButton from './rounded-button.tsx'
+import { useState } from "react"
+import { Dialog, DialogPanel } from "@headlessui/react"
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 
 const navigation = [
-  { name: 'Home', href: '/home' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
+  { name: "Home", href: "/home" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
+  { name: "Register", href: "/register" },
+  { name: "Login", href: "/login" },
 ]
 
 export default function About() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div>
-      <header className="absolute inset-x-0 top-0 z-50">
+    <div className="flex flex-col">
+      <header className="z-50">
         <nav aria-label="Global" className="bg-pale-rose mx-full flex shadow-lg items-center justify-between p-6 lg:px-8">
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5h-8 w-auto bg-mossy-green">
-              <span className="sr-only">Fabric Sustainability</span>
-                
+              <span className="sr-only">EcoChic</span>
+
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -42,8 +41,11 @@ export default function About() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" className="text-sm/6 font-semibold text-gray-900">
-              Log in <span aria-hidden="true">&rarr;</span>
+            <a href="Register" className="text-sm/6 font-semibold text-gray-900">
+              Register
+            </a>
+            <a href="Login" className="pl-5 text-sm/6 font-semibold text-gray-900">
+              Log in
             </a>
           </div>
         </nav>
@@ -52,12 +54,8 @@ export default function About() {
           <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img
-                  alt=""
-                  src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                  className="h-8 w-auto"
-                />
+                <span className="sr-only">EcoChic</span>
+
               </a>
               <button
                 type="button"
@@ -94,35 +92,7 @@ export default function About() {
           </DialogPanel>
         </Dialog>
       </header>
-      <div className="relative isolate overflow-hidden bg-gradient-to-b from-indigo-100/20 pt-14">
-        <div
-          aria-hidden="true"
-          className="absolute inset-y-0 right-1/2 -z-10 -mr-96 w-[200%] origin-top-right skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:-mr-80 lg:-mr-96"
-        />
-        <div className="mx-auto max-w-7xl px-6 py-32 sm:py-40 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0 lg:grid lg:max-w-none lg:grid-cols-2 lg:gap-x-16 lg:gap-y-8 xl:grid-cols-1 xl:grid-rows-1 xl:gap-x-8">
-            <h1 className="max-w-2xl text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl lg:col-span-2 xl:col-auto">
-              Live sustainably with fashion
-            </h1>
-            <div className="mt-6 max-w-xl lg:mt-0 xl:col-end-1 xl:row-start-1">
-              <p className="text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-                fugiat veniam occaecat fugiat aliqua. Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo.
-              </p>
-              <div className="mt-10 flex items-center gap-x-6">
-                  <RoundedButton />
-              </div>
-            </div>
-            <img
-              alt=""
-              src="/assets/images/logo.jpg"
-              className="mt-10 aspect-[6/5] w-full max-w-lg rounded-2xl object-cover sm:mt-16 lg:mt-0 lg:max-w-none xl:row-span-2 xl:row-end-2 xl:mt-36"
-            />
-          </div>
-        </div>
-        <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-white sm:h-32" />
-      </div>
+
     </div>
   )
 }

@@ -1,16 +1,16 @@
 import "./App.css";
-import About from "./Components/about";
-import CircleButton from "./Components/circle-buttons";
-import Footer from "./Components/footer";
-import Login from "./Components/login";
-import RoundedButton from "./Components/rounded-button";
+import About from "./Components/Main";
+import Register from "./Components/Register";
+import Footer from "./Components/Footer";
+import Login from "./Components/Login";
 
 function App() {
 
   return (
     <>
-      {/* <About /> */}
-      <Login />
+      <About />
+      {/* <Login /> */}
+      <Register />
       <Footer />
     </>
   )
