@@ -1,0 +1,9 @@
+# dockerfile/Dockerfile.server
+FROM node:18-alpine
+WORKDIR /app
+# Kopiera från server-mappen (finns i byggkonteksten)
+COPY server/package*.json ./
+RUN npm install
+COPY server/ .
+EXPOSE 3001
+CMD ["npm", "start"]

@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+   mongodb:
+      image: mongo
+      ports:
+         - "27017:27017"
+      volumes:
+         - mongo_data:/data/db
+
+   mongo-express:
+      image: mongo-express
+      depends_on:
+         - mongodb
+      environment:
+         ME_CONFIG_MONGODB_SERVER: "mongodb"
+      ports:
+         - "8081:8081"
+
+   backend:
+      build:
+         context: ..
+         dockerfile: dockerfile/Dockerfile.server
+      ports:
+         - "3001:3001"
+      environment:
+         MONGODB_URI: "mongodb://localhost:27017/materials_db"
+      depends_on:
+         - mongodb
+
+   frontend:
+      build:
+         context: ..
+         dockerfile: dockerfile/Dockerfile.client
+      ports:
+         - "3000:80"
+      depends_on:
+         - backend
+
+volumes:
+   mongo_data:
