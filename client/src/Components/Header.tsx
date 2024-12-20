@@ -4,13 +4,12 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 
 const navigation = [
   { name: "Home", href: "/home" },
-  { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
   { name: "Register", href: "/register" },
   { name: "Login", href: "/login" },
 ]
 
-export default function About() {
+export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
@@ -20,7 +19,6 @@ export default function About() {
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5h-8 w-auto bg-mossy-green">
               <span className="sr-only">EcoChic</span>
-
             </a>
           </div>
           <div className="flex lg:hidden">
