@@ -24,7 +24,7 @@ services:
       ports:
          - "3001:3001"
       environment:
-         MONGODB_URI: "mongodb://localhost:27017/materials_db"
+         MONGODB_URI: "mongodb://mongodb:27017/sustainability_db"
       depends_on:
          - mongodb
 
