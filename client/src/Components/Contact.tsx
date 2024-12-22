@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Field, Label, Switch } from '@headlessui/react'
+import { Field, Label, Switch } from '@headlessui/react';
 
 export default function Example() {
     const [agreed, setAgreed] = useState(false)

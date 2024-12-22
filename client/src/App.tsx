@@ -4,7 +4,7 @@ import Homepage from "./Components/Homepage";
 import Register from "./Components/Register";
 import Footer from "./Components/Footer";
 import Login from "./Components/Login";
-import Contact from "./Components/Contact";
+// import Contact from "./Components/Contact";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -25,9 +25,7 @@ function App() {
         <Route
           path="/home" element={<Navigate to="/" replace />}
         />
-        <Route 
-          path="/contact" element={<Contact />}
-        />
+     
       </Routes>
       <Footer />
     </div>
