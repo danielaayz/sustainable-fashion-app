@@ -1,7 +1,9 @@
+version: '3.9'  # Optional, specifies the Docker Compose version
+
 services:
   mongodb:
     image: mongo:latest
-    container_name : mongodb
+    container_name: mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: Profile
       MONGO_INITDB_ROOT_PASSWORD: username
