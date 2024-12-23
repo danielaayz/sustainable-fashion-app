@@ -1,122 +1,144 @@
-export default function Login() {
-  return (
-    <>
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+// import Success from "./alerts/Success"
+// import { useSetCurrentUser } from "../contexts/CurrentUserContext"
+// import ErrorAlert from "./alerts/ErrorAlert"
+// import { axiosReq } from "../api/axiosDefaults"
 
-      <div className="flex min-h-full flex-1">
-        <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-          <div className="mx-auto w-full max-w-sm lg:w-96">
-            <div>
-              <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">Let's save our planet, track the sustainability of your clothres and/or fabrics and earn points!</h2>
-              <p className="mt-2 text-sm/6 text-gray-500">
-                Not a member?{' '}
-                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                  Register here
-                </a>
-              </p>
-            </div>
+function Login() {
+
+  // const setCurrentUser = useSetCurrentUser()
+
+  // code for successful user creation and redirection
+  const navigate = useNavigate()
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+  const location = useLocation()
+
+  // will run whenever the location or navigate dependencies array is updated
+  useEffect(() => {
+    // checks if there's a success message in the locations state
+    if (location.state && location.state.showSuccess) {
+      setShowSuccessMessage(true)
+    }
+  }, [location, navigate])
+
+
+  // code for logging user in 
+
+  const [loginInfo, setLoginInfo] = useState({
+    username: "",
+    password: ""
+  })
+
+  // const { username, password } = loginInfo
+
+  const [errors, setErrors] = useState(null)
+
+  return (
+    <div>
+      <div
+        className="mx-auto my-8 grid grid-cols-3 gap-6 lg:pr-3 md:pr-3 grow-0 w-8/12 rounded-lg border-4 border-solid border-orchid-500 bg-orchid-50 shadow"
+      >
+        <div className="relative h-full flex-1 hidden lg:block md:block md:col-span-1 lg:col-span-2">
+          <img
+            className="inset-0 h-full w-full rounded-bl-sm rounded-tl-sm object-cover"
+            src="../assets/images/hills.png"
+            alt=""
+          />
+        </div>
+
+        <div className="flex flex-1 flex-col justify-center px-4 py-12 lg:flex-none col-span-3 lg:col-span-1 md:col-span-2">
+          <div className="mx-auto w-full max-w-sm">
+            <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+              Sign in to your account
+            </h2>
 
             <div className="mt-10">
-              <div>
-                <form action="#" method="POST" className="space-y-6">
-                  <div>
-                    <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
-                      Username
+              <form
+                method="POST"
+                // onSubmit={handleLogin}
+                className="space-y-6">
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >Username:</label>
+                  <div className="mt-2">
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      // onChange={handleLoginData}
+                      autoComplete="username"
+                      required
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >Password:</label>
+                  <div className="mt-2">
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      // onChange={handleLoginData}
+                      autoComplete="current-password"
+                      required
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input
+                      id="remember-me"
+                      name="remember-me"
+                      type="checkbox"
+                      className="text-purpleheart-600 h-4 w-4 rounded border-gray-300 focus:ring-orchid-600"
+                    />
+                    <label
+                      htmlFor="remember-me"
+                      className="ml-3 block text-sm leading-6 text-gray-700">
+                      Remember me
                     </label>
-                    <div className="mt-2">
-                      <input
-                        id="username"
-                        name="username"
-                        type="text"
-                        required
-                        autoComplete="username"
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                      />
-                    </div>
                   </div>
 
-                  <div>
-                    <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                      Password
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        required
-                        autoComplete="current-password"
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                      />
-                    </div>
-                  </div>
-                  {/* can be used to save passwords but the JS/TS funcitonality means out of MVP goals
-                  <div className="flex items-center justify-between">
-                    <div className="flex gap-3">
-                      <div className="flex h-6 shrink-0 items-center">
-                        <div className="group grid size-4 grid-cols-1">
-                          <input
-                            id="remember-me"
-                            name="remember-me"
-                            type="checkbox"
-                            className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
-                          />
-                          <svg
-                            fill="none"
-                            viewBox="0 0 14 14"
-                            className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25"
-                          >
-                            <path
-                              d="M3 8L6 11L11 3.5"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="opacity-0 group-has-[:checked]:opacity-100"
-                            />
-                            <path
-                              d="M3 7H11"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="opacity-0 group-has-[:indeterminate]:opacity-100"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <label htmlFor="remember-me" className="block text-sm/6 text-gray-900">
-                        Remember me
-                      </label>
-                    </div>
+                </div>
 
-                    <div className="text-sm/6">
-                      <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                        Forgot password?
-                      </a>
-                    </div>
-                  </div> */}
+                <div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-orchid-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orchid-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orchid-600">
+                    Sign in
+                  </button>
+                </div>
+              </form>
 
-                  <div>
-                    <button
-                      type="submit"
-                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Sign in
-                    </button>
+              <div className="mt-10">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center" aria-hidden="true">
                   </div>
-                </form>
+                  <div className="relative flex justify-center text-sm font-medium leading-6">
+                    <span className="bg-white px-6 text-gray-900">Not registered yet?</span>
+                  </div>
+                </div>
+
+                <a href="signup"
+                  className="text-center mt-6 flex w-full justify-center rounded-md border border-purple-600 bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-purple-700 shadow-sm hover:bg-orchid-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orchid-600">
+                  Sign up
+                </a>
               </div>
-
-
             </div>
           </div>
         </div>
-        <div className="relative hidden w-0 flex-1 lg:block">
-          <img
-            alt=""
-            src="../assets/images/logo.jpg"
-            className="absolute inset-0 size-full object-cover"
-          />
-        </div>
       </div>
-    </>
+    </div>
   )
 }
+
+export default Login

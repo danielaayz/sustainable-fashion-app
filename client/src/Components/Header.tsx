@@ -5,8 +5,8 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 const navigation = [
   { name: "Home", href: "/home" },
   { name: "Contact", href: "/contact" },
-  { name: "Register", href: "/register" },
-  { name: "Login", href: "/login" },
+  { name: "Profile", href: "/profile" },
+  { name: "Add Items", href: "/add-items" },
 ]
 
 export default function Header() {
@@ -39,11 +39,11 @@ export default function Header() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="Register" className="text-sm/6 font-semibold text-gray-900">
+            <a href="/Register" className="text-sm/6 font-semibold text-gray-900">
               Register
             </a>
-            <a href="Login" className="pl-5 text-sm/6 font-semibold text-gray-900">
-              Log in
+            <a href="/Login" className="pl-5 text-sm/6 font-semibold text-gray-900">
+              Login
             </a>
           </div>
         </nav>
