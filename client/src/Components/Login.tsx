@@ -1,17 +1,19 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [loginInfo, setLoginInfo] = useState({ username: "", password: "" });
+  const navigate = useNavigate();
+  const [loginInfo, setLoginInfo] = useState({
+    email: "",
+    password: "",
+  });
   const [message, setMessage] = useState("");
 
-     // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginInfo({ ...loginInfo, [name]: value });
   };
 
-    // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -23,18 +25,23 @@ export default function Login() {
         body: JSON.stringify(loginInfo),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
-        setMessage(data.message || "Login successful!");
-        // Optionally, store token in localStorage or context for future use
+        // Store the token in localStorage
+        console.log("Login Response Data:", data); // Debugging
+
         localStorage.setItem("token", data.token);
-        // Redirect or take further actions here
+        setMessage("Login successful!");
+        // Navigate to home page after successful login
+        navigate("/");
       } else {
-        const errorData = await response.json();
-        setMessage(errorData.message || "Invalid login credentials.");
+        console.log("Error Response Data:", data); // Debugging
+
+        setMessage(data.message || "Invalid credentials");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error:", error);//Debugging
       setMessage("Server error. Please try again later.");
     }
   };
@@ -49,10 +56,8 @@ export default function Login() {
               <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">Let's save our planet, track the sustainability of your clothres and/or fabrics and earn points!</h2>
               <p className="mt-2 text-sm/6 text-gray-500">
                 Not a member?{' '}
-                <a
-                  href="/register"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
+                  <a href="/register"
+                   className="font-semibold text-indigo-600 hover:text-indigo-500">
                   Register here
                 </a>
               </p>
@@ -60,20 +65,19 @@ export default function Login() {
 
             <div className="mt-10">
               <div>
-              <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                    <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
-                      Username
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+                      Email
                     </label>
                     <div className="mt-2">
                       <input
-                        id="username"
-                        name="username"
-                        type="text"
-                        value={loginInfo.username}
-                        onChange={handleChange}
+                        id="email"
+                        name="email"
+                        type="email"
                         required
-                        autoComplete="username"
+                        value={loginInfo.email}
+                        onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       />
                     </div>
@@ -88,10 +92,9 @@ export default function Login() {
                         id="password"
                         name="password"
                         type="password"
+                        required
                         value={loginInfo.password}
                         onChange={handleChange}
-                        required
-                        autoComplete="current-password"
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       />
                     </div>
@@ -140,6 +143,11 @@ export default function Login() {
                       </a>
                     </div>
                   </div> */}
+                   {message && (
+                    <div className={`text-sm ${message.includes("successful") ? "text-green-600" : "text-red-600"}`}>
+                      {message}
+                    </div>
+                  )}
 
                   <div>
                     <button
@@ -150,12 +158,7 @@ export default function Login() {
                     </button>
                   </div>
                 </form>
-                {message && (
-                  <p className="mt-4 text-sm text-red-500">{message}</p>
-                )}
               </div>
-
-
             </div>
           </div>
         </div>
@@ -168,5 +171,5 @@ export default function Login() {
         </div>
       </div>
     </>
-  )
+  );
 }

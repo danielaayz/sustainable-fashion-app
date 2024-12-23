@@ -2,12 +2,19 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import bodyParser from "body-parser";
+import dotenv from "dotenv";
 import userRoutes from "./routes/user_routes";
+
+dotenv.config();
 
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
+
 app.use(bodyParser.json());
 
 // Connect to MongoDB
