@@ -1,5 +1,45 @@
+import { useState } from "react";
+
+
 export default function Login() {
-  return (
+  const [loginInfo, setLoginInfo] = useState({ username: "", password: "" });
+  const [message, setMessage] = useState("");
+
+     // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginInfo({ ...loginInfo, [name]: value });
+  };
+
+    // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfo),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessage(data.message || "Login successful!");
+        // Optionally, store token in localStorage or context for future use
+        localStorage.setItem("token", data.token);
+        // Redirect or take further actions here
+      } else {
+        const errorData = await response.json();
+        setMessage(errorData.message || "Invalid login credentials.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setMessage("Server error. Please try again later.");
+    }
+  };
+
+  return(
     <>
 
       <div className="flex min-h-full flex-1">
@@ -9,7 +49,10 @@ export default function Login() {
               <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">Let's save our planet, track the sustainability of your clothres and/or fabrics and earn points!</h2>
               <p className="mt-2 text-sm/6 text-gray-500">
                 Not a member?{' '}
-                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                <a
+                  href="/register"
+                  className="font-semibold text-indigo-600 hover:text-indigo-500"
+                >
                   Register here
                 </a>
               </p>
@@ -17,8 +60,8 @@ export default function Login() {
 
             <div className="mt-10">
               <div>
-                <form action="#" method="POST" className="space-y-6">
-                  <div>
+              <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
                     <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
                       Username
                     </label>
@@ -27,6 +70,8 @@ export default function Login() {
                         id="username"
                         name="username"
                         type="text"
+                        value={loginInfo.username}
+                        onChange={handleChange}
                         required
                         autoComplete="username"
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -43,6 +88,8 @@ export default function Login() {
                         id="password"
                         name="password"
                         type="password"
+                        value={loginInfo.password}
+                        onChange={handleChange}
                         required
                         autoComplete="current-password"
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -103,6 +150,9 @@ export default function Login() {
                     </button>
                   </div>
                 </form>
+                {message && (
+                  <p className="mt-4 text-sm text-red-500">{message}</p>
+                )}
               </div>
 
 
