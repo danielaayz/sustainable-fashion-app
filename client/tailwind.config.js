@@ -9,6 +9,7 @@ export default {
          "light-clay": "#C5BBB4",
          "dark-clay": "#9A8371",
          "mossy-green": "#3A5246",
+         "white": "#FFF",
       },
       extend: {},
    },
