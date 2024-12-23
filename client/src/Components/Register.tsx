@@ -16,7 +16,7 @@ export default function Signup() {
         className="mx-auto my-8 grid grid-cols-3 gap-6 lg:pr-3 md:pr-3 grow-0 w-8/12 rounded-lg border-4 border-solid border-orchid-500 bg-orchid-50 shadow">
         <div className="relative h-full flex-1 hidden lg:block md:block md:col-span-1 lg:col-span-2">
           <img className="inset-0 h-full w-full rounded-bl-sm rounded-tl-sm object-cover"
-            src="../assets/images/group-people-are-standing-circle.jpg"
+            src="../assets/images/hills.png"
             alt="" />
         </div>
         <div className="flex flex-1 flex-col justify-center px-4 py-12 lg:flex-none col-span-3 lg:col-span-1 md:col-span-2">
