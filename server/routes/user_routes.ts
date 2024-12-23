@@ -13,7 +13,7 @@ interface RegisterRequestBody {
 }
 
 interface LoginRequestBody {
-  email: string;
+  username: string;  // Change email to username
   password: string;
 }
 
@@ -50,20 +50,22 @@ const loginHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
+  console.log("Request Body:", req.body); // Debugging
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ name: username  });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const isMatch = await user.comparePassword(password);
+    console.log("Password Match:", isMatch);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id }, "tokenIDkeepingitsecret", { expiresIn: "1h" });
 
     res.status(200).json({
       message: "Login successful",
