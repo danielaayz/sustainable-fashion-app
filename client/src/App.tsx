@@ -5,6 +5,8 @@ import Profile from "./Components/Profile";
 import Footer from "./Components/Footer";
 // import AddItems from "./Components/AddItems";
 import Contact from "./Components/Contact";
+import Register from "./Components/Register";
+import Login from "./Components/Login";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -28,6 +30,13 @@ function App() {
           <Route
             path="/contact" element={<Contact />}
           />
+          <Route
+            path="/register" element={<Register />}
+          />
+          <Route
+            path="/login" element={<Login />}
+          />
+          
         </Routes>
       </div>
       <Footer />

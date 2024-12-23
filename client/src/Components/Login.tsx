@@ -22,10 +22,6 @@ function Login() {
     }
   }, [location, navigate])
 
-  const handleDismissMessage = () => {
-    setShowSuccessMessage(false)
-    setErrors(null)
-  }
 
   // code for logging user in 
 
@@ -34,54 +30,12 @@ function Login() {
     password: ""
   })
 
-  const { username, password } = loginInfo
+  // const { username, password } = loginInfo
 
   const [errors, setErrors] = useState(null)
 
-
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const response = await axiosReq.post(
-        "/dj-rest-auth/login/",
-        loginInfo
-      )
-      if (response.status === 200) {
-        setCurrentUser(response.data.user) // Update user context
-        navigate("/home", {
-          state: {
-            showSuccess: true, message: `Welcome, ${response.data.user.username}!`
-          }
-        })
-      } else {
-        setErrors(response.data)
-        console.log("Login failed:", response.data)
-      }
-    } catch (err) {
-      // Handle errors here, e.g., display an error message to the user
-      console.error("Login error:", err.response?.data)
-      setErrors(err.response?.data)
-    }
-  }
-
-  const handleLoginData = (event) => {
-    setLoginInfo({
-      ...loginInfo,
-      // "name" refers to the name attribute on the forms (ie password, username)
-      [event.target.name]: event.target.value
-    })
-  }
-
   return (
     <div>
-      {errors && <ErrorAlert errors={errors} onDismiss={handleDismissMessage} />}
-      {/* registration success message */}
-      {location.state?.showSuccess ? (
-        <Success
-          message={location.state.message || "Success!"}
-          onDismiss={handleDismissMessage} />
-      ) : null}
       <div
         className="mx-auto my-8 grid grid-cols-3 gap-6 lg:pr-3 md:pr-3 grow-0 w-8/12 rounded-lg border-4 border-solid border-orchid-500 bg-orchid-50 shadow"
       >
@@ -102,7 +56,7 @@ function Login() {
             <div className="mt-10">
               <form
                 method="POST"
-                onSubmit={handleLogin}
+                // onSubmit={handleLogin}
                 className="space-y-6">
                 <div>
                   <label
@@ -114,7 +68,7 @@ function Login() {
                       id="username"
                       name="username"
                       type="text"
-                      onChange={handleLoginData}
+                      // onChange={handleLoginData}
                       autoComplete="username"
                       required
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -132,7 +86,7 @@ function Login() {
                       id="password"
                       name="password"
                       type="password"
-                      onChange={handleLoginData}
+                      // onChange={handleLoginData}
                       autoComplete="current-password"
                       required
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
