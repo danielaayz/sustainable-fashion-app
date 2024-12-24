@@ -36,12 +36,12 @@ export default function Login() {
         // Navigate to home page after successful login
         navigate("/");
       } else {
-        console.log("Error Response Data:", data); // Debugging
+        // console.log("Error Response Data:", data); // Debugging
 
         setMessage(data.message || "Invalid credentials");
       }
     } catch (error) {
-      console.error("Error:", error);//Debugging
+      // console.error("Error:", error);//Debugging
       setMessage("Server error. Please try again later.");
     }
   };
