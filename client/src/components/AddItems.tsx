@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { ChevronLeft, Minus, Plus, Upload } from 'lucide-react'
 /* shadCN library to speed up frontend work */
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
+import RoundedButton from "../components/RoundedButton"
 import { Input } from "@/components/ui/input"
 import {
     Select,
@@ -19,6 +20,7 @@ interface MaterialEntry {
 
 export default function AddItemForm() {
 
+    // placeholder data to allow mapping functionality, to be changed
     const materials: MaterialEntry[] = [
        { type: "wool",
         percentage: 65}
@@ -29,7 +31,7 @@ export default function AddItemForm() {
             <div>
                 <a
                     href="/dashboard"
-                    className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
+                    className="inline-flex p-2 rounded bg-soft-green items-center text-sm text-black hover:text-mossy-green"
                 >
                     <ChevronLeft className="w-4 h-4 mr-1" />
                     Back to Dashboard
@@ -37,18 +39,18 @@ export default function AddItemForm() {
             </div>
 
             <div>
-                <h1 className="text-2xl font-semibold text-gray-900">Add New Item</h1>
-                <p className="mt-1 text-sm text-gray-500">Add details about your new clothing item</p>
+                <h1 className="text-2xl font-semibold text-black">Add New Item</h1>
+                <p className="mt-1 text-sm text-black">Add details about your new clothing item</p>
             </div>
 
             <form className="space-y-8">
                 <div className="space-y-4">
                     <Label>Item Image</Label>
                     <div className="border-2 border-dashed rounded-lg p-12 text-center">
-                        <div className="mx-auto w-12 h-12 text-gray-400">
+                        <div className="mx-auto w-12 h-12 text-light-clay">
                             <Upload className="w-12 h-12" />
                         </div>
-                        <p className="mt-2 text-sm text-gray-500">or drag and drop</p>
+                        <p className="mt-2 text-sm text-black">or drag and drop</p>
                     </div>
                 </div>
 
@@ -77,13 +79,10 @@ export default function AddItemForm() {
                 <div className="space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-medium">Material Composition</h2>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
+                        <RoundedButton
                         >
                             + Add Material
-                        </Button>
+                        </RoundedButton>
                     </div>
 
                     <div className="space-y-4">
@@ -110,13 +109,10 @@ export default function AddItemForm() {
                                 <div className="w-48">
                                     <Label>Percentage</Label>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            size="icon"
+                                        <RoundedButton
                                         >
                                             <Minus className="h-4 w-4" />
-                                        </Button>
+                                        </RoundedButton>
                                         <Input
                                             type="number"
                                             value={material.percentage}
@@ -124,22 +120,16 @@ export default function AddItemForm() {
                                             min="0"
                                             max="100"
                                         />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            size="icon"
+                                        <RoundedButton
                                         >
                                             <Plus className="h-4 w-4" />
-                                        </Button>
+                                        </RoundedButton>
                                         {materials.length > 1 && (
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
+                                            <RoundedButton
                                                 className="text-red-500 hover:text-red-700"
                                             >
                                                 Remove
-                                            </Button>
+                                            </RoundedButton>
                                         )}
                                     </div>
                                 </div>
@@ -158,7 +148,7 @@ export default function AddItemForm() {
                 </div>
 
                 <div className="flex justify-end">
-                    <Button type="submit">Add Item</Button>
+                    <RoundedButton type="submit">Add Item</RoundedButton>
                 </div>
             </form>
         </div>

@@ -10,7 +10,8 @@ export default {
    		'light-clay': '#C5BBB4',
    		'dark-clay': '#9A8371',
    		'mossy-green': '#3A5246',
-   		'white': '#FFF'
+   		'white': '#FFF',
+		'black': '000'
    	},
    	extend: {
    		borderRadius: {
@@ -18,7 +19,6 @@ export default {
    			md: 'calc(var(--radius) - 2px)',
    			sm: 'calc(var(--radius) - 4px)'
    		},
-   		colors: {}
    	}
    },
    plugins: [require("tailwindcss-animate")],
