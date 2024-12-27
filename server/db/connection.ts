@@ -13,7 +13,10 @@ const connectDB = async (): Promise<void> => {
       const conn = await mongoose.connect(MONGODB_URI);
 
       // Log a successful connection message, including the database host
-      console.log(`MongoDB Connected: ${conn.connection.host}`);
+      console.log(`MongoDB Connected:`);
+      console.log(`  Host: ${conn.connection.host}`);
+      console.log(`  Database: ${conn.connection.name}`);
+      console.log(`  Port: ${conn.connection.port}`);
 
       // Set up an event listener for errors that may occur after initial connection
       mongoose.connection.on("error", (err) => {
