@@ -1,54 +1,50 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
-import type { IMaterial } from "../types/types.ts";
-
-export interface MaterialDocument extends IMaterial, Document {}
+import mongoose, { Schema, Model } from "mongoose";
+import type {
+   MaterialDocument,
+   MaterialProperties,
+} from "../types/materialTypes.js";
 
 const materialSchema = new Schema<MaterialDocument>({
    name: {
       type: String,
       required: true,
-      unique: true,
+      trim: true,
    },
    category: {
       type: String,
-      enum: ["Natural", "Synthetic", "Semi-Synthetic"],
       required: true,
+      enum: ["Natural", "Synthetic", "Semi-Synthetic"],
    },
-   scoring: {
-      goodProperties: Number,
-      badProperties: Number,
-      environmentalImpact: Number,
-      weightedTotal: Number,
+   sustainabilityScore: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 100,
+   },
+   scoreDescription: {
+      type: String,
+      required: true,
+      enum: ["Poor", "Moderate", "Good", "Very Good", "Excellent"],
    },
    properties: {
-      good: [
-         {
-            property: String,
-            description: String,
-         },
-      ],
-      bad: [
-         {
-            property: String,
-            description: String,
-         },
-      ],
-      environmental: [
-         {
-            impact: String,
-            description: String,
-         },
-      ],
-   },
-   sustainability: {
-      biodegradable: Boolean,
-      recyclable: Boolean,
-      organicOptionAvailable: Boolean,
+      pros: {
+         type: [String],
+         default: [],
+      },
+      cons: {
+         type: [String],
+         default: [],
+      },
    },
    lastUpdated: {
       type: Date,
       default: Date.now,
    },
+});
+
+materialSchema.pre("save", function (next) {
+   this.lastUpdated = new Date();
+   next();
 });
 
 export const Material: Model<MaterialDocument> =
