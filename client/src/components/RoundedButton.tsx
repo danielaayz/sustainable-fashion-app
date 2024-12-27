@@ -4,6 +4,7 @@ interface RoundedButtonProps {
   children?: React.ReactNode;
   onClick?: () => void;
   className?: string;
+  type?: "button" | "submit" | "reset";
 }
 
 const RoundedButton: React.FC<RoundedButtonProps> = ({ children, onClick, className }) => {
