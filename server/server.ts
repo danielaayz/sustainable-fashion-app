@@ -1,6 +1,6 @@
 import express from "express";
 import connectDB from "./db/connection.js";
-import materialsRouter from "./routes/materialsRoute.js";
+import materialsRouter from "./routes/materialsRouter.js";
 
 // Initialize Express app
 const app = express();
@@ -10,7 +10,7 @@ connectDB();
 
 // Middleware
 app.use(express.json());
-app.use("/api", materialsRouter);
+app.use("/api/materials", materialsRouter);
 
 // Basic route
 app.get("/", (req, res) => {
