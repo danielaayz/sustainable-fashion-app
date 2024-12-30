@@ -11,7 +11,10 @@ export default {
    		'dark-clay': '#9A8371',
    		'mossy-green': '#3A5246',
    		'white': '#FFF',
-		'black': '000'
+		'black': '000',
+		'light-red': '#FEF2F2',
+		'red': '#BD1918',
+		'light-green': '#F0FDF4',
    	},
    	extend: {
    		borderRadius: {

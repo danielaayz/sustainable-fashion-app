@@ -8,6 +8,7 @@ import Contact from "./components/Contact";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import WardrobePage from "./components/WardrobePage";
+import ItemModal from "./components/ItemModal";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -26,7 +27,11 @@ function App() {
           path="/add-items" element={<AddItems />}
           />
           <Route 
-          path="/wardrobe" element={<WardrobePage />}/>
+          path="/wardrobe" element={<WardrobePage />}
+          />
+          <Route
+            path="/item-modal" element={<ItemModal />}
+          />
           <Route
             path="/home" element={<Navigate to="/" replace />}
           />
