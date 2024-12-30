@@ -14,8 +14,8 @@ import {
 import { Label } from "@/components/ui/label"
 
 interface MaterialEntry {
-    type: string
-    percentage: number
+    type: string;
+    percentage: number;
 }
 
 export default function AddItemForm() {
