@@ -8,6 +8,7 @@ const navigation = [
   { name: "Profile", href: "/profile" },
   { name: "Add Items", href: "/add-items" },
   { name: "Wardrobe", href: "/wardrobe" },
+  { name: "Item Modal", href: "/item-modal" },
 ]
 
 export default function Header() {
