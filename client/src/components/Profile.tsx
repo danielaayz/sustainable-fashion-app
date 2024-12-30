@@ -35,6 +35,7 @@ export default function Profile() {
                 <h2 className="text-4xl p-2">Sustainable Fashion App</h2>
                 <h3 className="text-lg p-2">Track and manage your sustainable wardrobe</h3>
             </article>
+            {/* to replace with username */}
             <h1 className="text-5xl text-left mb-4">Hi, user.username!</h1>
             <h3 className="text-left mb-8">
                 Welcome to your sustainable wardrobe manager. What would you like to do today?

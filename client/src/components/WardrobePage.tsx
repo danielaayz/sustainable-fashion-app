@@ -50,6 +50,7 @@ const WardrobePage = () => {
         }
     ];
 
+    // filtering code, currently visual only
     const materialOptions = ["Cotton", "Polyester", "Linen", "Wool"];
     const brandOptions = ["EcoWear", "Sustainable Co.", "Green Fashion"];
 
@@ -104,7 +105,6 @@ const WardrobePage = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header */}
             <header className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
@@ -125,13 +125,13 @@ const WardrobePage = () => {
                                     className="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-64 focus:ring-1 focus:ring-green-800"
                                 />
                             </div>
-                            <button
+                            {/* <button
                                 // onClick={() => setShowFilters(!showFilters)}
                                 className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800"
                             >
                                 <Filter className="w-5 h-5" />
                                 {showFilters ? 'Hide' : 'Show'} Filters
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>
@@ -139,13 +139,11 @@ const WardrobePage = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <div className="flex gap-6">
-                    {/* Filters Sidebar */}
                     {showFilters && (
                         <div className="w-64 flex-shrink-0">
                             <div className="bg-white rounded-lg shadow-sm p-4">
                                 <h2 className="font-medium text-gray-800 mb-4">Filters</h2>
 
-                                {/* Material Filter */}
                                 <div className="mb-6">
                                     <h3 className="text-sm font-medium text-gray-700 mb-2">Materials</h3>
                                     <div className="space-y-2">
@@ -163,7 +161,6 @@ const WardrobePage = () => {
                                     </div>
                                 </div>
 
-                                {/* Brand Filter */}
                                 <div className="mb-6">
                                     <h3 className="text-sm font-medium text-gray-700 mb-2">Brands</h3>
                                     <div className="space-y-2">
