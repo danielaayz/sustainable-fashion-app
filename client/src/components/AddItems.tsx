@@ -30,7 +30,7 @@ export default function AddItemForm() {
         <div className="max-w-2xl mx-auto p-6 space-y-8">
             <div>
                 <a
-                    href="/dashboard"
+                    href="/home"
                     className="inline-flex p-2 rounded bg-soft-green items-center text-sm text-black hover:text-mossy-green"
                 >
                     <ChevronLeft className="w-4 h-4 mr-1" />
