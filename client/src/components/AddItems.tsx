@@ -18,12 +18,28 @@ interface MaterialEntry {
     percentage: number;
 }
 
-export default function AddItemForm() {
+interface ItemToSave {
+    itemName: string;
+    brand: string;
+    materials: MaterialEntry[];
+    image?: string;
+}
 
+
+
+export default function AddItemForm() {
+    const [saveItem, setSaveItem] = useState<ItemToSave | null>(null);
+
+    const handleSaveItem = (item: ItemToSave) => {
+        console.log("Saving the following item:", item);
+        setSaveItem(item);
+    }
     // placeholder data to allow mapping functionality, to be changed
     const materials: MaterialEntry[] = [
-       { type: "wool",
-        percentage: 65}
+        {
+            type: "wool",
+            percentage: 65
+        }
     ]
 
     return (
@@ -115,7 +131,7 @@ export default function AddItemForm() {
                                         </RoundedButton>
                                         <Input
                                             type="number"
-                                            value={material.percentage}
+                                            defaultValue={material.percentage}
                                             className="w-20 text-center"
                                             min="0"
                                             max="100"
@@ -148,7 +164,22 @@ export default function AddItemForm() {
                 </div>
 
                 <div className="flex justify-end">
-                    <RoundedButton type="submit">Add Item</RoundedButton>
+                    <RoundedButton
+                        type="submit"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            const savedItem: ItemToSave = {
+                                itemName: "",
+                                brand: "",
+                                materials: [],
+                                image: ""
+                            }
+
+                            handleSaveItem(savedItem)
+                        }}
+                    >
+                        Save Item
+                    </RoundedButton>
                 </div>
             </form>
         </div>
