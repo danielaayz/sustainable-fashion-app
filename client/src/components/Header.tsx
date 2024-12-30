@@ -6,8 +6,6 @@ const navigation = [
   { name: "Home", href: "/home" },
   { name: "Contact", href: "/contact" },
   { name: "Profile", href: "/profile" },
-  { name: "Add Items", href: "/add-items" },
-  { name: "Wardrobe", href: "/wardrobe" },
   { name: "Item Modal", href: "/item-modal" },
 ]
 
