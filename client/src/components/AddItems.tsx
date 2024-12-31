@@ -1,23 +1,24 @@
-import { useState } from "react"
-import { ChevronLeft, Minus, Plus, Upload } from 'lucide-react'
+import { useState } from "react";
+import { ChevronLeft, Minus, Plus, Upload } from 'lucide-react';
 /* shadCN library to speed up frontend work */
-// import { Button } from "@/components/ui/button"
-import RoundedButton from "../components/RoundedButton"
-import { Input } from "@/components/ui/input"
+import RoundedButton from "../components/RoundedButton";
+import { Input } from "@/components/ui/input";
 import { 
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
+// Define the type for the material entry
 interface MaterialEntry {
     type: string;
     percentage: number;
 }
 
+// Define the type for the item being saved
 interface ItemToSave {
     itemName: string;
     brand: string;
@@ -25,22 +26,55 @@ interface ItemToSave {
     image?: string;
 }
 
-
-
 export default function AddItemForm() {
-    const [saveItem, setSaveItem] = useState<ItemToSave | null>(null);
+    const [itemName, setItemName] = useState('');
+    const [brand, setBrand] = useState('');
+    const [materials, setMaterials] = useState<MaterialEntry[]>([
+        { type: "wool", percentage: 65 }
+    ]);
 
-    const handleSaveItem = (item: ItemToSave) => {
-        console.log("Saving the following item:", item);
-        setSaveItem(item);
-    }
-    // placeholder data to allow mapping functionality, to be changed
-    const materials: MaterialEntry[] = [
-        {
-            type: "wool",
-            percentage: 65
+    const addMaterial = () => {
+        setMaterials([...materials, { type: '', percentage: 0 }]);
+    };
+
+    const removeMaterial = (index: number) => {
+        setMaterials(materials.filter((_, i) => i !== index));
+    };
+
+    const updateMaterial = (index: number, field: 'type' | 'percentage', value: string | number) => {
+        const updatedMaterials = [...materials];
+        updatedMaterials[index] = {
+            ...updatedMaterials[index],
+            [field]: value
+        };
+        setMaterials(updatedMaterials);
+    };
+
+    const handleSaveItem = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Validate total percentage
+        const totalPercentage = materials.reduce((sum, mat) => sum + Number(mat.percentage), 0);
+        if (totalPercentage !== 100) {
+            alert('Total percentage must equal 100%');
+            return;
         }
-    ]
+
+        const itemData: ItemToSave = {
+            itemName,
+            brand,
+            materials,
+            // Add image handling logic here if needed
+        };
+
+        console.log("Saving the following item:", itemData);
+
+        // Placeholder for submitting the form data (e.g., to an API)
+        setTimeout(() => {
+            console.log("Item saved:", itemData);
+            alert('Item saved successfully!');
+        }, 1000);
+    };
 
     return (
         <div className="max-w-2xl mx-auto p-6 space-y-8">
@@ -59,7 +93,7 @@ export default function AddItemForm() {
                 <p className="mt-1 text-sm text-black">Add details about your new clothing item</p>
             </div>
 
-            <form className="space-y-8">
+            <form onSubmit={handleSaveItem} className="space-y-8">
                 <div className="space-y-4">
                     <Label>Item Image</Label>
                     <div className="border-2 border-dashed rounded-lg p-12 text-center">
@@ -79,6 +113,8 @@ export default function AddItemForm() {
                                 id="itemName"
                                 placeholder="e.g. Cotton T-Shirt"
                                 className="mt-1"
+                                value={itemName}
+                                onChange={(e) => setItemName(e.target.value)}
                             />
                         </div>
                         <div>
@@ -87,6 +123,8 @@ export default function AddItemForm() {
                                 id="brand"
                                 placeholder="e.g. Sustainable Brand Co."
                                 className="mt-1"
+                                value={brand}
+                                onChange={(e) => setBrand(e.target.value)}
                             />
                         </div>
                     </div>
@@ -95,10 +133,7 @@ export default function AddItemForm() {
                 <div className="space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-medium">Material Composition</h2>
-                        <RoundedButton
-                        >
-                            + Add Material
-                        </RoundedButton>
+                        <RoundedButton onClick={addMaterial}>+ Add Material</RoundedButton>
                     </div>
 
                     <div className="space-y-4">
@@ -108,6 +143,7 @@ export default function AddItemForm() {
                                     <Label>Material Type</Label>
                                     <Select
                                         value={material.type}
+                                        onValueChange={(value) => updateMaterial(index, 'type', value)}
                                     >
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select material..." />
@@ -125,24 +161,24 @@ export default function AddItemForm() {
                                 <div className="w-48">
                                     <Label>Percentage</Label>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <RoundedButton
-                                        >
+                                        <RoundedButton onClick={() => updateMaterial(index, 'percentage', material.percentage - 1)}>
                                             <Minus className="h-4 w-4" />
                                         </RoundedButton>
                                         <Input
                                             type="number"
-                                            defaultValue={material.percentage}
+                                            value={material.percentage}
+                                            onChange={(e) => updateMaterial(index, 'percentage', Number(e.target.value))}
                                             className="w-20 text-center"
                                             min="0"
                                             max="100"
                                         />
-                                        <RoundedButton
-                                        >
+                                        <RoundedButton onClick={() => updateMaterial(index, 'percentage', material.percentage + 1)}>
                                             <Plus className="h-4 w-4" />
                                         </RoundedButton>
                                         {materials.length > 1 && (
                                             <RoundedButton
                                                 className="text-red-500 hover:text-red-700"
+                                                onClick={() => removeMaterial(index)}
                                             >
                                                 Remove
                                             </RoundedButton>
@@ -164,24 +200,9 @@ export default function AddItemForm() {
                 </div>
 
                 <div className="flex justify-end">
-                    <RoundedButton
-                        type="submit"
-                        onClick={(e) => {
-                            e.preventDefault()
-                            const savedItem: ItemToSave = {
-                                itemName: "",
-                                brand: "",
-                                materials: [],
-                                image: ""
-                            }
-
-                            handleSaveItem(savedItem)
-                        }}
-                    >
-                        Save Item
-                    </RoundedButton>
+                    <RoundedButton type="submit">Save Item</RoundedButton>
                 </div>
             </form>
         </div>
-    )
+    );
 }
