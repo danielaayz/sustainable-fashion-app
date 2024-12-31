@@ -7,7 +7,7 @@ const router = express.Router();
 const materialsDatabase = {
     cotton: {
         name: "Cotton",
-        sustainabilityScore: 55,
+        sustainabilityScore: 57,
         positiveProperties: ["Breathable", "Biodegradable", "Skin-friendly"],
         considerations: ["High water consumption", "Pesticide use in non-organic"],
         environmentalImpact: "Medium impact due to water usage and farming practices"
@@ -21,21 +21,21 @@ const materialsDatabase = {
     },
     modal: {
         name: "Modal",
-        sustainabilityScore: 72,
+        sustainabilityScore: 68,
         positiveProperties: ["Soft", "Biodegradable", "Less water usage"],
         considerations: ["Chemical processing"],
         environmentalImpact: "Moderate impact due to processing"
     },
     polyester: {
         name: "Polyester",
-        sustainabilityScore: 35,
+        sustainabilityScore: 57,
         positiveProperties: ["Durable", "Quick-drying"],
         considerations: ["Non-biodegradable", "Microplastic pollution"],
         environmentalImpact: "High impact from synthetic materials"
     },
     wool: {
         name: "Wool",
-        sustainabilityScore: 60,
+        sustainabilityScore: 65,
         positiveProperties: ["Biodegradable", "Renewable", "Warm"],
         considerations: ["Animal welfare concerns", "Water usage in processing"],
         environmentalImpact: "Moderate impact from animal farming"
