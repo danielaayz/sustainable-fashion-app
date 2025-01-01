@@ -5,11 +5,14 @@ const router = Router();
 
 const materialController = new MaterialController();
 
+// POST: Create new materials in bulk
+router.post("/bulk", materialController.createManyMaterials);
+
 // POST: Create a new material
 router.post("/", materialController.createMaterial);
 
-// POST: Create new materials in bulk
-router.post("/bulk", materialController.createManyMaterials);
+// GET: Retrieve all materials
+router.get("/", materialController.getAllMaterials);
 
 // GET: Retrieve a specific material
 router.get("/:id", materialController.getMaterialById);

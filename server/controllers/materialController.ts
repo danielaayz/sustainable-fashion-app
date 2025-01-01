@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Material } from "../models/materials.js";
+import { Material } from "../models/materialSchema.js";
 import {
    MaterialDocument,
    MaterialProperties,
@@ -144,12 +144,31 @@ export class MaterialController {
       }
    };
 
-   /**
-    * Creates multiple materials at once.
-    * @param req - The HTTP request object containing an array of materials.
-    * @param res - The HTTP response object.
-    * @param next - The next middleware function.
-    */
+   getAllMaterials = async (
+      req: Request,
+      res: Response,
+      next: NextFunction
+   ): Promise<void> => {
+      try {
+         const materials = await Material.find({});
+         res.json({
+            message: "Materials retrieved successfully",
+            materials: materials,
+         });
+      } catch (error) {
+         if (error instanceof Error) {
+            res.status(500).json({
+               message: "Error fetching materials",
+               error: error.message,
+            });
+         } else {
+            res.status(500).json({
+               message: "Error fetching materials",
+               error: String(error),
+            });
+         }
+      }
+   };
 
    /**
     * Retrieves a specific material by ID.
