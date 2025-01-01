@@ -1,14 +1,12 @@
-import React from 'react';
+import React from "react";
+import { RoundedButtonProps } from "../types/RoundedButton";
 
-interface RoundedButtonProps {
-  children?: React.ReactNode;
-  onClick?: () => void;
-  className?: string;
-  type?: "button" | "submit" | "reset";
-}
-
-const RoundedButton: React.FC<RoundedButtonProps> = ({ children, onClick, className }) => {
-  const combinedClassName = `
+const RoundedButton: React.FC<RoundedButtonProps> = ({
+   children,
+   onClick,
+   className,
+}) => {
+   const combinedClassName = `
     bg-dark-clay 
     text-white 
     hover:bg-mossy-green 
@@ -24,14 +22,14 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({ children, onClick, classN
     font-semibold 
     transition-colors 
     duration-200
-    ${className || ''}
+    ${className || ""}
   `;
 
-  return (
-    <button className={combinedClassName} onClick={onClick}>
-      {children}
-    </button>
-  );
+   return (
+      <button className={combinedClassName} onClick={onClick}>
+         {children}
+      </button>
+   );
 };
 
 export default RoundedButton;

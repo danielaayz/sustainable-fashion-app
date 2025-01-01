@@ -1,7 +1,5 @@
-# dockerfile/Dockerfile.server
-FROM node:18-alpine
+FROM node:20-alpine
 WORKDIR /app
-# Kopiera från server-mappen (finns i byggkonteksten)
 COPY server/package*.json ./
 RUN npm install
 COPY server/ .

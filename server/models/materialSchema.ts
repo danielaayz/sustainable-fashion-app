@@ -36,6 +36,10 @@ const materialSchema = new Schema<MaterialDocument>({
          default: [],
       },
    },
+   environmentalImpact: {
+      type: [String],
+      default: [],
+   },
    lastUpdated: {
       type: Date,
       default: Date.now,

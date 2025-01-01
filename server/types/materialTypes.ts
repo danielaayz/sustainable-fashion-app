@@ -10,6 +10,7 @@ export interface MaterialProperties {
       pros: string[];
       cons: string[];
    };
+   environmentalImpact: string[];
    lastUpdated: Date;
 }
 
