@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import connectDB from "./db/connection.js";
 import materialsRouter from "./routes/materialsRouter.js";
 
@@ -9,6 +10,7 @@ const app = express();
 connectDB();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 app.use("/api/materials", materialsRouter);
 
