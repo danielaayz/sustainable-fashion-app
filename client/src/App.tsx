@@ -8,6 +8,7 @@ import Contact from "./components/Contact";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import { Routes, Route, Navigate } from "react-router-dom";
+import ItemDetailModal from "./components/ItemModal";
 
 function App() {
    return (
@@ -22,6 +23,19 @@ function App() {
                <Route path="/contact" element={<Contact />} />
                <Route path="/register" element={<Register />} />
                <Route path="/login" element={<Login />} />
+               <Route
+                  path="/test-modal"
+                  element={
+                     <ItemDetailModal
+                        itemName="Test Item"
+                        composition={[
+                           { type: "cotton", percentage: 60 },
+                           { type: "polyester", percentage: 40 },
+                        ]}
+                        onClose={() => console.log("Modal closed")}
+                     />
+                  }
+               />
             </Routes>
          </div>
          <Footer />

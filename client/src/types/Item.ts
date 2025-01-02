@@ -1,4 +1,4 @@
-import { MaterialEntry } from "./Material";
+import { MaterialEntry } from "./MaterialEntry";
 
 export interface ClothingItem {
    id: string;
