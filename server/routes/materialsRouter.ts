@@ -14,6 +14,8 @@ router.post("/", materialController.createMaterial);
 // GET: Retrieve all materials
 router.get("/", materialController.getAllMaterials);
 
+router.get("/search", materialController.getMaterialByName);
+
 // GET: Retrieve a specific material
 router.get("/:id", materialController.getMaterialById);
 

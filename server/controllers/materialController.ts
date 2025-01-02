@@ -170,6 +170,34 @@ export class MaterialController {
       }
    };
 
+   getMaterialByName = async (
+      req: Request,
+      res: Response,
+      next: NextFunction
+   ): Promise<void> => {
+      try {
+         const { name } = req.query;
+         const material = await Material.findOne({
+            name: { $regex: new RegExp(String(name), "i") },
+         });
+
+         if (!material) {
+            res.status(404).json({
+               message: "Material not found",
+               error: "Material not found",
+            });
+            return;
+         }
+
+         res.json({
+            message: "Material found",
+            material: material,
+         });
+      } catch (error) {
+         next(error);
+      }
+   };
+
    /**
     * Retrieves a specific material by ID.
     * @param req - The HTTP request object containing the material ID.
