@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { X, Check, AlertTriangle, ThermometerSun, Droplets, Timer } from 'lucide-react';
+import { ItemToSave } from './AddItems';
 
-const ItemDetailModal = () => {
+export interface ItemModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    item: ItemToSave | null;
+}
+
+const ItemDetailModal: React.FC<ItemModalProps> = ({ isOpen, onClose, item }) => {
+
+    // don't render modal if not open
+    if (!isOpen || !item) return null;
     const [materials, setMaterials] = useState([{ type: '', percentage: '' }]);
 
     // data to be replaced by users' Add Items form input/dropdown choices
@@ -31,6 +41,7 @@ const ItemDetailModal = () => {
                             <button
                                 className="text-gray-400 hover:text-gray-600"
                                 aria-label="Close modal"
+                                onClick={onClose}
                             >
                                 <X className="w-6 h-6" />
                             </button>
