@@ -2,7 +2,7 @@ import React from 'react';
 
 interface RoundedButtonProps {
   children?: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.SyntheticEvent) => void;
   className?: string;
   type?: "button" | "submit" | "reset";
 }
