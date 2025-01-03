@@ -1,8 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
-import type {
-   MaterialDocument,
-   MaterialProperties,
-} from "../types/materialTypes.js";
+import type { MaterialDocument } from "../types/materialTypes.js";
 
 const materialSchema = new Schema<MaterialDocument>({
    name: {

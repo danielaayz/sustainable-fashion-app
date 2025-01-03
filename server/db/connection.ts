@@ -4,8 +4,12 @@ import dotenv from "dotenv";
 // Load environment variables from .env file
 dotenv.config();
 
+// const MONGODB_URI =
+//    process.env.MONGODB_URI || "mongodb://localhost:27017/sustainability_db";
+
 const MONGODB_URI =
-   process.env.MONGODB_URI || "mongodb://localhost:27017/sustainability_db";
+   process.env.MONGODB_URI ||
+   "mongodb://admin:your_secure_password@mongodb:27017/sustainability_db?authSource=admin";
 
 const connectDB = async (): Promise<void> => {
    try {
