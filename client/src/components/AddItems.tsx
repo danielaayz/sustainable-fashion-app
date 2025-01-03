@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { ChevronLeft, Minus, Plus, Upload } from 'lucide-react'
 /* shadCN library to speed up frontend work */
 // import { Button } from "@/components/ui/button"
@@ -67,6 +67,17 @@ export default function AddItemForm({ }) {
         }
     ]
 
+    // stores the targeted input fields' attributes
+    const handleInputChange = (attributeName: keyof ItemToSave) => (e: React.SyntheticEvent<HTMLInputElement>) => {
+        const newItem = {
+            ...item,
+            // @ts-ignore
+            [attributeName]: e.target.value,
+        }
+        // @ts-ignore
+        setItem(newItem)
+    };
+
     return (
 
         <>
@@ -96,7 +107,7 @@ export default function AddItemForm({ }) {
                     <p className="mt-1 text-sm text-black">Add details about your new clothing item</p>
                 </div>
 
-                <form className="space-y-8">
+                <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
                     <div className="space-y-4">
                         <Label>Item Image</Label>
                         <div className="border-2 border-dashed rounded-lg p-12 text-center">
@@ -117,6 +128,7 @@ export default function AddItemForm({ }) {
                                     placeholder="e.g. Cotton T-Shirt"
                                     className="mt-1"
                                     value={item.itemName}
+                                    onChange={handleInputChange("itemName")}
                                 />
                             </div>
                             <div>
@@ -126,6 +138,7 @@ export default function AddItemForm({ }) {
                                     placeholder="e.g. Sustainable Brand Co."
                                     className="mt-1"
                                     value={item.brand}
+                                    onChange={handleInputChange("brand")}
                                 />
                             </div>
                         </div>
@@ -209,8 +222,8 @@ export default function AddItemForm({ }) {
                                 e.preventDefault();
                                 const savedItem: ItemToSave = {
                                     itemName: item.itemName,
-                                    brand: "",
-                                    materials: [],
+                                    brand: item.brand,
+                                    materials: item.materials,
                                     image: ""
                                 }
 
