@@ -19,7 +19,7 @@ services:
 
    backend:
       build:
-         context: ..
+         context: .   
          dockerfile: dockerfile/Dockerfile.server
       ports:
          - "3001:3001"
@@ -28,14 +28,15 @@ services:
       depends_on:
          - mongodb
 
-   frontend:
-      build:
-         context: ..
-         dockerfile: dockerfile/Dockerfile.client
-      ports:
-         - "3000:80"
-      depends_on:
-         - backend
+#removing this to test backend first. 
+   # frontend:
+   #    build:
+   #       context: ..
+   #       dockerfile: dockerfile/Dockerfile.client
+   #    ports:
+   #       - "3000:80"
+   #    depends_on:
+   #       - backend
 
 volumes:
    mongo_data:

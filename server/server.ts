@@ -1,11 +1,26 @@
 import express from 'express';
-import itemRouter from './routes/Item';
+import cors from 'cors';
+import connectDB from './db/connection';
+import itemRouter from './routes/Item';  // Updated to match the file name
 
 const app = express();
+const PORT = process.env.PORT || 3001;
 
-app.use(express.json()); // This middleware parses JSON bodies
-app.use('/api/items', itemRouter); // Mount the router
+app.use(cors());
+app.use(express.json());
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// Connect to MongoDB
+connectDB();
+
+// Routes
+app.use('/api/items', itemRouter);
+
+// Error handler
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({ success: false, error: 'Something broke!' });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
