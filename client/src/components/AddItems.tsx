@@ -5,7 +5,7 @@ import { ChevronLeft, Minus, Plus, Upload } from "lucide-react";
 import RoundedButton from "../components/RoundedButton";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
+  Select, 
   SelectContent,
   SelectItem,
   SelectTrigger,
