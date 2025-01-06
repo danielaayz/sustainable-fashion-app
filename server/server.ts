@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes.js";
 import connectDB from "./db/connection.js";
-import materialsRouter from "./routes/materialsRouter.js";
+import materialsRouter from "./routes/materialsRoutes.js";
+import sustainabilityRoutes from "./routes/sustainabilityRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(express.json());
 // Route Setup
 app.use("/api/users", userRoutes);
 app.use("/api/materials", materialsRouter);
+app.use("/api/sustainability", sustainabilityRoutes);
 
 // Basic route
 app.get("/", (req, res) => {
