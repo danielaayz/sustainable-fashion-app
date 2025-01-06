@@ -6,18 +6,33 @@ import userRoutes from "./routes/userRoutes.js";
 import connectDB from "./db/connection.js";
 import materialsRouter from "./routes/materialsRoutes.js";
 import sustainabilityRoutes from "./routes/sustainabilityRoutes.js";
+import itemRouter from "./routes/Item"; // Updated to match the file name
 
 // Load environment variables
 dotenv.config();
+
+// Types for Express error handling
+interface ErrorResponse extends Error {
+   status?: number;
+}
+
+// Express app setup
 const app = express();
+const PORT = process.env.PORT || 3001;
+
+// CORS Configuration
+const corsOptions = {
+   origin: [
+      "http://localhost:5173", // Frontend URL
+   ],
+   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+   allowedHeaders: ["Content-Type", "Authorization"],
+   credentials: true,
+   optionsSuccessStatus: 200,
+};
 
 // Middleware Setup
-app.use(
-   cors({
-      origin: "http://localhost:5173",
-      credentials: true,
-   })
-);
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json());
 
@@ -25,56 +40,56 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/materials", materialsRouter);
 app.use("/api/sustainability", sustainabilityRoutes);
+app.use("/api/items", itemRouter);
 
 // Basic route
-app.get("/", (req, res) => {
+app.get("/", (req: express.Request, res: express.Response) => {
    res.send("Api is running...");
 });
 
 // Error handling middleware
 app.use(
    (
-      err: Error,
+      err: ErrorResponse,
       req: express.Request,
       res: express.Response,
       next: express.NextFunction
    ) => {
       console.error(err.stack);
-      res.status(500).json({ message: "Something went wrong!" });
+      const statusCode = err.status || 500;
+      res.status(statusCode).json({
+         success: false,
+         message: err.message || "Something went wrong!",
+         stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+      });
    }
 );
 
-// Database Connection
-connectDB();
+// Start server function
+const startServer = async () => {
+   try {
+      // Database Connection
+      await connectDB();
 
-// Server Setup
-const PORT = process.env.PORT || 3001; // Changed default port to 3001
-app.listen(PORT, () => {
-   console.log(`Server is running on ${PORT}`);
-});
-import express from 'express';
-import cors from 'cors';
-import connectDB from './db/connection';
-import itemRouter from './routes/Item';  // Updated to match the file name
+      // Server Setup
+      app.listen(PORT, () => {
+         console.log(`Server is running on port ${PORT}`);
+         console.log(
+            `CORS is enabled for origins: ${corsOptions.origin.join(", ")}`
+         );
+      });
+   } catch (error) {
+      console.error("Failed to start server:", error);
+      process.exit(1);
+   }
+};
 
-const app = express();
-const PORT = process.env.PORT || 3001;
-
-app.use(cors());
-app.use(express.json());
-
-// Connect to MongoDB
-connectDB();
-
-// Routes
-app.use('/api/items', itemRouter);
-
-// Error handler
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ success: false, error: 'Something broke!' });
+// Handle unexpected errors
+process.on("unhandledRejection", (err: Error) => {
+   console.error("Unhandled Promise rejection:", err);
+   // Close server & exit process
+   process.exit(1);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Initialize the server
+startServer();
