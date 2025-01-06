@@ -7,7 +7,7 @@ export interface RegisterRequestBody {
 }
 
 export interface LoginRequestBody {
-   username: string;
+   name: string; // Changed from username to name
    password: string;
 }
 

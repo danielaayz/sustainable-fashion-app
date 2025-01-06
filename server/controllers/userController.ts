@@ -37,33 +37,35 @@ export const loginHandler = async (
    res: Response,
    next: NextFunction
 ) => {
-   const { username, password } = req.body;
+   const { name, password } = req.body; //// Changed from username to name
 
    try {
-      const user = await User.findOne({ name: username });
-      if (!user) {
-         return res.status(400).json({ message: "Invalid credentials" });
-      }
 
-      const isMatch = await user.comparePassword(password);
-      console.log("Password Match:", isMatch);
-      if (!isMatch) {
-         return res.status(400).json({ message: "Invalid credentials" });
-      }
-
-      //If the password is correct, a JWT token is generated using jwt.sign.
-      //The token is created with the user's ID (user._id) and has an expiration time of 1 hour.
-      //The token is sent back in the response, allowing the user to be authenticated for subsequent requests.
-      const token = jwt.sign({ id: user._id }, "tokenIDkeepingitsecret", {
-         expiresIn: "1h",
-      });
-
-      res.status(200).json({
-         message: "Login successful",
-         token,
-      });
-   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
-   }
-};
+            const user = await User.findOne({ name: name });
+            if (!user) {
+               return res.status(400).json({ message: "Invalid credentials" });
+            }
+      
+            const isMatch = await user.comparePassword(password);
+            if (!isMatch) {
+               return res.status(400).json({ message: "Invalid credentials" });
+            }
+      
+            const token = jwt.sign({ id: user._id }, "tokenIDkeepingitsecret", {
+               expiresIn: "1h",
+            });
+      
+            res.status(200).json({
+               message: "Login successful",
+               token,
+               user: {
+                  id: user._id,
+                  name: user.name,
+                  email: user.email
+               }
+            });
+         } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Server error" });
+         }
+      };
