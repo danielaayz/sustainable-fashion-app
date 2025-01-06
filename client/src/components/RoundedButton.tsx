@@ -1,12 +1,15 @@
 import React from "react";
 import { RoundedButtonProps } from "../types/RoundedButton";
 
-const RoundedButton: React.FC<RoundedButtonProps> = ({
-   children,
-   onClick,
-   className,
-}) => {
-   const combinedClassName = `
+interface RoundedButtonProps {
+  children?: React.ReactNode;
+  onClick?: (e: React.SyntheticEvent) => void;
+  className?: string;
+  type?: "button" | "submit" | "reset";
+}
+
+const RoundedButton: React.FC<RoundedButtonProps> = ({ children, onClick, className }) => {
+  const combinedClassName = `
     bg-dark-clay 
     text-white 
     hover:bg-mossy-green 

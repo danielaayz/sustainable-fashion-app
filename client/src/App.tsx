@@ -7,10 +7,13 @@ import AddItems from "./components/AddItems";
 import Contact from "./components/Contact";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import WardrobePage from "./components/WardrobePage";
+import ItemModal from "./components/ItemModal";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ItemDetailModal from "./components/ItemModal";
 
 function App() {
+<<<<<<< HEAD
    return (
       <div className="flex flex-col min-h-screen">
          <Header />
@@ -39,6 +42,42 @@ function App() {
             </Routes>
          </div>
          <Footer />
+=======
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <div className="flex-grow">
+        <Routes>
+          <Route index element={<Homepage />}
+          />
+          <Route
+            path="/profile" element={<Profile />}
+          />
+          <Route
+          path="/add-items" element={<AddItems />}
+          />
+          <Route 
+          path="/wardrobe" element={<WardrobePage />}
+          />
+          <Route
+            path="/item-modal" element={<ItemModal />}
+          />
+          <Route
+            path="/home" element={<Navigate to="/" replace />}
+          />
+          <Route
+            path="/contact" element={<Contact />}
+          />
+          <Route
+            path="/register" element={<Register />}
+          />
+          <Route
+            path="/login" element={<Login />}
+          />
+
+        </Routes>
+>>>>>>> Add-and-View-Items
       </div>
    );
 }
