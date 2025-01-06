@@ -6,7 +6,7 @@ import userRoutes from "./routes/userRoutes.js";
 import connectDB from "./db/connection.js";
 import materialsRouter from "./routes/materialsRoutes.js";
 import sustainabilityRoutes from "./routes/sustainabilityRoutes.js";
-import itemRouter from "./routes/ItemRoutes.js";
+import itemRouter from "./routes/itemRoutes.js";
 
 // Load environment variables
 dotenv.config();
