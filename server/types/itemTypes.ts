@@ -1,7 +1,8 @@
 import { Document } from "mongoose";
+import mongoose from "mongoose";
 
 export interface IMaterial {
-   type: string;
+   materialId: mongoose.Schema.Types.ObjectId;
    percentage: number;
 }
 
