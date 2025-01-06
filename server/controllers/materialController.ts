@@ -4,6 +4,7 @@ import {
    MaterialDocument,
    MaterialProperties,
 } from "../types/materialTypes.js";
+import mongoose from "mongoose";
 
 /**
  * MaterialController is reponsible for handling HTTP requests related to materials.
@@ -42,6 +43,33 @@ export class MaterialController {
       }
 
       return "Natural";
+   }
+
+   // Add this method to your MaterialController class
+   async checkDatabaseMaterials(): Promise<void> {
+      try {
+         // Check if we have a database connection
+         if (!mongoose.connection.db) {
+            console.error("No database connection available");
+            return;
+         }
+
+         // List all collections
+         const collections = await mongoose.connection.db
+            .listCollections()
+            .toArray();
+         console.log(
+            "Available collections:",
+            collections.map((c) => c.name)
+         );
+
+         // Try to find all materials
+         const materials = await Material.find({});
+         console.log("Number of materials found:", materials.length);
+         console.log("Materials:", materials);
+      } catch (error) {
+         console.error("Database check error:", error);
+      }
    }
 
    /**
@@ -150,6 +178,9 @@ export class MaterialController {
       next: NextFunction
    ): Promise<void> => {
       try {
+         // Databse check
+         await this.checkDatabaseMaterials();
+
          const materials = await Material.find({});
          res.json({
             message: "Materials retrieved successfully",
