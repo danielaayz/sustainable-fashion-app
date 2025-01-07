@@ -6,7 +6,7 @@ import userRoutes from "./routes/userRoutes.js";
 import connectDB from "./db/connection.js";
 import materialsRouter from "./routes/materialsRoutes.js";
 import sustainabilityRoutes from "./routes/sustainabilityRoutes.js";
-import itemRouter from "./routes/itemRoutes.js";
+import itemRouter from "./routes/ItemRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -24,6 +24,7 @@ const PORT = process.env.PORT || 3001;
 const corsOptions = {
    origin: [
       "http://localhost:5173", // Frontend URL
+      "http://localhost:3001", // Allow local testing
    ],
    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
    allowedHeaders: ["Content-Type", "Authorization"],
