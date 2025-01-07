@@ -24,6 +24,7 @@ export default {
          },
       },
 
+
    	colors: {
    		'linen': '#F2E6D9',
    		'pale-rose': '#F3E5E3',
@@ -44,6 +45,7 @@ export default {
    			sm: 'calc(var(--radius) - 4px)'
    		},
    	}
+
 
    },
    plugins: [animate],

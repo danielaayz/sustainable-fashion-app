@@ -4,6 +4,8 @@ import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
 import Footer from "./components/Footer";
 import AddItems from "./components/AddItems";
+import ViewProfile from "./components/viewProfile";
+import UserAccount from "./components/userAccount";
 import Contact from "./components/Contact";
 import Register from "./components/Register";
 import Login from "./components/Login";
@@ -28,6 +30,12 @@ function App() {
           />
           <Route 
           path="/wardrobe" element={<WardrobePage />}
+          />
+          <Route 
+          path="/ViewProfile" element={<ViewProfile/>}
+          />
+          <Route 
+          path="/UserAccount" element={<UserAccount/>}
           />
           <Route
             path="/item-modal" element={<ItemModal />}
