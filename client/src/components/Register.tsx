@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"
+
 
 export default function Signup() {
+   const navigate = useNavigate()
+
    // variable signupInfo, function setSignupInfo
    const [signupInfo, setSignupInfo] = useState({
       username: "",
@@ -8,6 +12,55 @@ export default function Signup() {
       password1: "",
       password2: "",
    });
+
+   // State for handling error messages
+  const [errors, setErrors] = useState<string | null>(null)
+
+  // Handler for updating form input values
+  const handleSignupData = (e: React.ChangeEvent<HTMLInputElement>) => {
+   setSignupInfo({
+      ...signupInfo,
+      [e.target.name]: e.target.value // Update specific field while preserving others
+    })
+  }
+
+  // Handler for form submission
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault() // Prevent default form submission
+    setErrors(null)
+
+    // Validate password match
+    if (signupInfo.password1 !== signupInfo.password2) {
+      setErrors('Passwords do not match')
+      return
+    }
+
+    try {
+      // Make API request to register endpoint
+      const response = await fetch('http://localhost:3001/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: signupInfo.username,
+          email: signupInfo.email,
+          password: signupInfo.password1
+        })
+      })
+
+      const data = await response.json()
+      
+      if (response.ok) {
+        // Redirect to login page with success message
+        navigate('/login', { state: { showSuccess: true } })
+      } else {
+        setErrors(data.message) // Show error from server
+      }
+    } catch (error) {
+      setErrors('Failed to connect to server') // Show connection error
+    }
+  }
 
    return (
       <>
@@ -38,6 +91,8 @@ export default function Signup() {
                               id="email"
                               name="email"
                               type="email"
+                              value={signupInfo.email}
+                              onChange={handleSignupData}
                               required
                               className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                            />
@@ -54,6 +109,8 @@ export default function Signup() {
                               id="username"
                               name="username"
                               type="text"
+                              value={signupInfo.username}
+                              onChange={handleSignupData}
                               required
                               className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                            />
@@ -70,6 +127,8 @@ export default function Signup() {
                               id="password1"
                               name="password1"
                               type="password"
+                              value={signupInfo.password1}
+                              onChange={handleSignupData}
                               required
                               className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                            />
@@ -86,6 +145,8 @@ export default function Signup() {
                               id="password2"
                               name="password2"
                               type="password"
+                              value={signupInfo.password2}
+                              onChange={handleSignupData}
                               required
                               className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                            />

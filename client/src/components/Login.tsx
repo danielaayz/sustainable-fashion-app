@@ -6,33 +6,70 @@ import { useLocation, useNavigate } from "react-router-dom"
 // import { axiosReq } from "../api/axiosDefaults"
 
 function Login() {
-
-  // const setCurrentUser = useSetCurrentUser()
-
-  // code for successful user creation and redirection
+    // Navigation hook for redirecting users
   const navigate = useNavigate()
+    // State for showing success message after registration
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+    // Get location object for accessing router state
   const location = useLocation()
-
-  // will run whenever the location or navigate dependencies array is updated
-  useEffect(() => {
-    // checks if there's a success message in the locations state
-    if (location.state && location.state.showSuccess) {
-      setShowSuccessMessage(true)
-    }
-  }, [location, navigate])
-
-
-  // code for logging user in 
-
+    // State for storing login form data
   const [loginInfo, setLoginInfo] = useState({
     username: "",
     password: ""
   })
+    // State for handling error messages
+  const [errors, setErrors] = useState<string | null>(null)
 
-  // const { username, password } = loginInfo
+  // Check for success message in router state when component mounts
+  useEffect(() => {
+    if (location.state?.showSuccess) {
+      setShowSuccessMessage(true)
+      const timer = setTimeout(() => setShowSuccessMessage(false), 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [location])
 
-  const [errors, setErrors] = useState(null)
+
+  // Handler for updating form input values
+  const handleLoginData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginInfo({
+      ...loginInfo,
+      [e.target.name]: e.target.value // Update specific field while preserving others
+    })
+  }
+
+  // Handler for form submission
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault() // Prevent default form submission
+    setErrors(null)
+
+    try {
+      // Make API request to login endpoint
+      const response = await fetch('http://localhost:3001/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: loginInfo.username,
+          password: loginInfo.password
+        })
+      })
+
+      const data = await response.json()
+      
+      if (response.ok) {
+        // Store auth token and user data in localStorage
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('user', JSON.stringify(data.user))
+        navigate('/') // Redirect to home page
+      } else {
+        setErrors(data.message) // Show error from server
+      }
+    } catch (error) {
+      setErrors('Failed to connect to server') ;// Show connection error
+    }
+  }
 
   return (
     <div>
@@ -54,10 +91,7 @@ function Login() {
             </h2>
 
             <div className="mt-10">
-              <form
-                method="POST"
-                // onSubmit={handleLogin}
-                className="space-y-6">
+            <form onSubmit={handleLogin} method="POST" className="space-y-6">
                 <div>
                   <label
                     htmlFor="username"
@@ -68,7 +102,8 @@ function Login() {
                       id="username"
                       name="username"
                       type="text"
-                      // onChange={handleLoginData}
+                      value={loginInfo.username}
+                      onChange={handleLoginData}
                       autoComplete="username"
                       required
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -86,7 +121,9 @@ function Login() {
                       id="password"
                       name="password"
                       type="password"
-                      // onChange={handleLoginData}
+                      onChange={handleLoginData}
+                      value={loginInfo.password}
+
                       autoComplete="current-password"
                       required
                       className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
