@@ -4,8 +4,8 @@ import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
 import Footer from "./components/Footer";
 import AddItems from "./components/AddItems";
-import ViewProfile from "./components/viewProfile";
-import UserAccount from "./components/userAccount";
+import ViewProfile from "./components/ViewProfile";
+import UserAccount from "./components/UserAccount";
 import Contact from "./components/Contact";
 import Register from "./components/Register";
 import Login from "./components/Login";
@@ -37,9 +37,9 @@ function App() {
           <Route 
           path="/UserAccount" element={<UserAccount/>}
           />
-          <Route
+          {/* <Route
             path="/item-modal" element={<ItemModal />}
-          />
+          /> */}
           <Route
             path="/home" element={<Navigate to="/" replace />}
           />

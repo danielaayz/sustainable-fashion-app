@@ -1,42 +1,38 @@
-version: "3.9"
-
 services:
    mongodb:
+      container_name: mongodb
       image: mongo
+      environment:
+         MONGO_INITDB_DATABASE: sustainability_db
       ports:
          - "27017:27017"
       volumes:
          - mongo_data:/data/db
+      command: mongod --bind_ip_all
 
    mongo-express:
       image: mongo-express
-      depends_on:
-         - mongodb
       environment:
-         ME_CONFIG_MONGODB_SERVER: "mongodb"
+         ME_CONFIG_MONGODB_SERVER: mongodb
+         ME_CONFIG_MONGODB_PORT: 27017
       ports:
          - "8081:8081"
+      depends_on:
+         - mongodb
+      restart: always
 
    backend:
       build:
-         context: .   
+         context: ..
          dockerfile: dockerfile/Dockerfile.server
-      ports:
-         - "3001:3001"
       environment:
          MONGODB_URI: "mongodb://mongodb:27017/sustainability_db"
+         JWT_SECRET: your_secret_key_here
+         PORT: 3001
+      ports:
+         - "3001:3001"
       depends_on:
          - mongodb
-
-#removing this to test backend first. 
-   # frontend:
-   #    build:
-   #       context: ..
-   #       dockerfile: dockerfile/Dockerfile.client
-   #    ports:
-   #       - "3000:80"
-   #    depends_on:
-   #       - backend
 
 volumes:
    mongo_data:

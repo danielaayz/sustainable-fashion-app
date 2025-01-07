@@ -5,7 +5,6 @@ export default {
    darkMode: ["class"],
    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
    theme: {
-
       colors: {
          linen: "#F2E6D9",
          "pale-rose": "#F3E5E3",

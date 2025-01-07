@@ -1,0 +1,33 @@
+BACKEND : 
+
+user_profile.ts file: 
+It defines how user data (like name, email, and password) is stored and managed in a MongoDB database using Mongoose. 
+It sets up a schema for user profiles, where the password is hashed before being saved to ensure security. 
+When a user registers,their password is hashed using the bcrypt library,making it unreadable even if the database is exposed.
+When the user logs in, the entered password is compared to the hashed one stored in the database using a method called 
+comparePassword. The file also defines how a new user is created, including automatic tracking of when the account was 
+created (createdAt). The User model is then exported, which allows the backend to interact with the database, 
+like creating, finding, and verifying users.
+
+user_routes.ts file : 
+It defines routes for user registration and login. When a user registers, the backend checks if the email already exists
+in the database. If not, it creates a new user with the provided details (name, email, and password).
+During login, the backend checks if the username exists and compares the provided password with the stored hashed password.
+If they match, a JWT token is generated and sent to the user, allowing them to stay logged in for a set period(1hr). 
+Essentially, this file handles the logic for signing up users, logging them in, and securely managing their sessions 
+with tokens.
+
+server.ts file : 
+It sets up an Express server that listens for HTTP requests. It connects to a MongoDB database, enabling user data storage.
+The server uses middleware for CORS (allowing cross-origin requests), parsing JSON request bodies, and managing errors.
+The /api/auth routes are handled by the userRoutes file, which manages user registration and login. 
+Finally, the server listens on a port (either from an environment variable or defaulting to 5000) and logs a message 
+once it’s running.
+
+
+
+
+
+
+
+

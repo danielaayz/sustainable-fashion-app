@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { RoundedButtonProps } from "../types/RoundedButton";
 
 interface RoundedButtonProps {
   children?: React.ReactNode;
@@ -24,14 +25,14 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({ children, onClick, classN
     font-semibold 
     transition-colors 
     duration-200
-    ${className || ''}
+    ${className || ""}
   `;
 
-  return (
-    <button className={combinedClassName} onClick={onClick}>
-      {children}
-    </button>
-  );
+   return (
+      <button className={combinedClassName} onClick={onClick}>
+         {children}
+      </button>
+   );
 };
 
 export default RoundedButton;
