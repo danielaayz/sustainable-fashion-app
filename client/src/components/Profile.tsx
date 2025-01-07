@@ -24,7 +24,7 @@ const profile_grid_items = [
         icon:
             <User className="w-12 h-12 text-[#3a5246]" />,
         cta_button: "View Profile",
-        link: "#"
+        link: "/ViewProfile"
     },
 ]
 
