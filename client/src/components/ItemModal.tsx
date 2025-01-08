@@ -47,6 +47,7 @@ const materialService = {
 };
 
 interface ItemDetailModalProps {
+   isOpen: boolean;
    onClose: () => void;
    itemName: string;
    composition: CompositionMaterial[];
