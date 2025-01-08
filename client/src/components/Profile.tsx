@@ -1,4 +1,5 @@
 import { Plus, Shirt, User } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const profile_grid_items = [
    {
@@ -6,18 +7,21 @@ const profile_grid_items = [
       detail: "Add new clothing items to your wardrobe",
       icon: <Plus className="w-12 h-12 text-[#3a5246]" />,
       cta_button: "Add New Item",
+      link: "/add-items"
    },
    {
       name: "View Wardrobe",
       detail: "Explore your sustainable wardrobe collection",
       icon: <Shirt className="w-12 h-12 text-[#3a5246]" />,
       cta_button: "Open Wardrobe",
+      link: "/wardrobe"
    },
    {
       name: "Your Profile",
       detail: "Manage your account and view stats",
       icon: <User className="w-12 h-12 text-[#3a5246]" />,
       cta_button: "View Profile",
+      link: "/#"
    },
 ];
 
@@ -60,9 +64,9 @@ export default function Profile() {
                         </dl>
                      </div>
                      <div className="flex divide-x divide-gray-200">
-                        <button className="text-linen flex w-full items-center justify-center rounded-bl-lg rounded-br-lg bg-mossy-green p-4 font-semibold">
+                        <Link to={item.link} className="text-linen flex w-full items-center justify-center rounded-bl-lg rounded-br-lg bg-mossy-green p-4 font-semibold">
                            {item.cta_button}
-                        </button>
+                        </Link>
                      </div>
                   </li>
                ))}
