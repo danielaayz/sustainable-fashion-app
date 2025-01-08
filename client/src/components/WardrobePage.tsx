@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
-import { ArrowLeft, Search, Filter, X, Info } from 'lucide-react';
-import { Alert } from '@/components/ui/alert';
+import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, Search, Filter, X, Info, HandMetal } from 'lucide-react';
+// import { Alert } from '@/components/ui/alert';
 
 const WardrobePage = () => {
     const [showFilters, setShowFilters] = useState(true);
@@ -10,6 +11,10 @@ const WardrobePage = () => {
         materials: [],
         brands: []
     });
+    const [editingItem, setEditingItem] = useState<Item | null>(null);
+    const [showAddItem, setShowAddItem] = useState(false);
+    const navigate = useNavigate();
+
 
     interface Material {
         type: string;
@@ -21,12 +26,12 @@ const WardrobePage = () => {
         name: string;
         brand: string;
         materials: Material[];
-        image: string;
+        image?: string;
         sustainabilityNote: string;
     }
 
     // Sample data - in real app, this would come from props or API
-    const items: Item[] = [
+    const [items, setItems] = useState<Item[]>([
         {
             id: 1,
             name: "Cotton T-Shirt",
@@ -48,11 +53,32 @@ const WardrobePage = () => {
             image: "https://picsum.photos/200/300",
             sustainabilityNote: "Sourced from responsible wool standard certified farms."
         }
-    ];
+    ]);
+
 
     // filtering code, currently visual only
     const materialOptions = ["Cotton", "Polyester", "Linen", "Wool"];
     const brandOptions = ["EcoWear", "Sustainable Co.", "Green Fashion"];
+
+    // handling editing of a specific item
+    const handleEdit = (item: Item) => {
+        navigate(`/add-items/${item.id}`)
+    };
+
+    // handle updating an item
+    const handleUpdate = (updatedItem: Item) => {
+        setItems(items.map(item => item.id === updatedItem.id ? updatedItem : item));
+        setEditingItem(null);
+        setShowAddItem(false);
+    };
+
+    // handle deleting an item
+    const handleDelete = (id: number) => {
+        if (confirm("Are you sure you want to delete this item?")) {
+            setItems(items.filter(item => item.id !== id));
+            setSelectedItem(null);
+        }
+    };
 
     const filteredItems = useMemo(() => {
         return items.filter(item => {
@@ -63,7 +89,7 @@ const WardrobePage = () => {
                 item.materials.some(mat =>
                     mat.type.toLowerCase().includes(searchTerm.toLowerCase())
                 );
-                    // Material filter
+            // Material filter
             const materialMatch = filters.materials.length === 0 ||
                 item.materials.some(mat =>
                     filters.materials.some(filter =>
@@ -105,6 +131,7 @@ const WardrobePage = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
+
             <header className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
@@ -206,28 +233,42 @@ const WardrobePage = () => {
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                                {filteredItems.map((item) => (
-                                    <div key={item.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
-                                        <div className="aspect-w-3 aspect-h-4 relative group">
-                                            <img
-                                                src={item.image}
-                                                alt={item.name}
-                                                className="w-full h-full object-cover"
-                                            />
-                                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" />
-                                            <button
-                                                onClick={() => setSelectedItem(item)}
-                                                className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white px-4 py-2 rounded-md text-sm font-medium shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-200"
-                                            >
-                                                View Details
-                                            </button>
+                                    {filteredItems.map((item) => (
+                                        <div key={item.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+                                            <div className="aspect-w-3 aspect-h-4 relative group">
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.itemName}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" />
+                                                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
+                                                    <button
+                                                        onClick={() => setSelectedItem(item)}
+                                                        className="bg-white px-4 py-2 rounded-md text-sm font-medium shadow-sm"
+                                                    >
+                                                        View
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleEdit(item)}
+                                                        className="bg-white px-4 py-2 rounded-md text-sm font-medium shadow-sm"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(item.id)}
+                                                        className="bg-white px-4 py-2 rounded-md text-sm font-medium shadow-sm"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="p-4">
+                                                <h3 className="font-medium text-gray-800">{item.itemName}</h3>
+                                                <p className="text-sm text-gray-600">{item.brand}</p>
+                                            </div>
                                         </div>
-                                        <div className="p-4">
-                                            <h3 className="font-medium text-gray-800">{item.name}</h3>
-                                            <p className="text-sm text-gray-600">{item.brand}</p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
                         )}
                     </div>
