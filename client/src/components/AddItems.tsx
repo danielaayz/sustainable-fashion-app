@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, Minus, Plus, Upload } from "lucide-react";
 /* shadCN library to speed up frontend work */
 // import { Button } from "@/components/ui/button"
 import RoundedButton from "../components/RoundedButton";
 import { Input } from "@/components/ui/input";
 import {
-  Select, 
+  Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -13,50 +13,104 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import ItemDetailModal from "./ItemModal";
+import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 
 export interface MaterialEntry {
   type: string;
   percentage: number;
-}
+};
 
 export interface ItemToSave {
+  id?: number;
   itemName: string;
   brand: string;
   materials: MaterialEntry[];
   image?: string;
+};
+
+interface AddItemFormProps {
+  initialItem?: ItemToSave;
+  onSave: (item: ItemToSave) => void;
+  onCancel: () => void;
+};
+
+// taken from React Router loader function
+export async function loader({ params }: LoaderFunctionArgs) {
+  const wardrobeItem:ItemToSave = {
+    id: 3,
+    itemName: "Test shirt",
+    brand: "Best brand",
+    materials: [{type: "Cotton", percentage: 100}],
+    
+  }
+  return wardrobeItem;
 }
 
-export default function AddItemForm() {
+export default function AddItemForm({}) {
   const [savedItemData, setSavedItemData] = useState<ItemToSave | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [item, setItem] = useState<ItemToSave>({
-    itemName: "",
-    brand: "",
-    materials: [{ type: "", percentage: 0 }],
-    image: "",
-  });
+  const [item, setItem] = useState<ItemToSave | undefined>(undefined);
 
-  const handleSaveItem = (itemToSave: ItemToSave) => {
-    console.log("Saving the following item:", itemToSave);
-    setSavedItemData(itemToSave);
+  // const wardrobeItem = useLoaderData<Awaited<ReturnType<typeof loader>>>();
+  // console.log(wardrobeItem)
+
+  useEffect(() => {
+    // use fetch("backend-endpoint-url") to fetch data
+    const wardrobeItem: ItemToSave = {
+      id: 3,
+      itemName: "Test shirt",
+      brand: "Best brand",
+      materials: [{ type: "cotton", percentage: 100 }],
+
+    }
+    setItem(wardrobeItem)
+  }, [])
+
+  console.log(item)
+
+  // save item data and open Modal
+  const handleSaveItem = () => {
+    if (!item) {
+      return
+    }
+    const totalPercentage = item.materials.reduce(
+      (sum, material) => sum + material.percentage, 0
+    );
+    if (totalPercentage !== 100) {
+      alert("Total material percentage must be 100%!");
+      return;
+    }
+
+    console.log("Saving the following item:", item);
+    setSavedItemData(item);
     setIsModalOpen(true);
   };
 
 
   const handleInputChange =
     (attributeName: keyof ItemToSave) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!item) {
+        return
+      }
       setItem({ ...item, [attributeName]: e.target.value });
     };
 
-    const handleMaterialChange = (index: number, key: keyof MaterialEntry, value: any) => {
-        const updatedMaterials = [...item.materials];
-        updatedMaterials[index] = {
-          ...updatedMaterials[index],
-          [key]: value, // Spread and assign dynamically
-        };
-        setItem({ ...item, materials: updatedMaterials });
-      };
+  const handleMaterialChange = (index: number, key: keyof MaterialEntry, value: any) => {
+    if (!item) {
+      return
+    }
+    const updatedMaterials = [...item.materials];
+    updatedMaterials[index] = {
+      ...updatedMaterials[index],
+      [key]: value, // Spread and assign dynamically
+    };
+    setItem({ ...item, materials: updatedMaterials });
+  };
+
   const handleAddMaterial = () => {
+    if (!item) {
+      return
+    }
     setItem({
       ...item,
       materials: [...item.materials, { type: "", percentage: 0 }],
@@ -64,11 +118,17 @@ export default function AddItemForm() {
   };
 
   const handleRemoveMaterial = (index: number) => {
+    if (!item) {
+      return
+    }
     const updatedMaterials = item.materials.filter((_, i) => i !== index);
     setItem({ ...item, materials: updatedMaterials });
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!item) {
+      return
+    }
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -81,11 +141,12 @@ export default function AddItemForm() {
 
   return (
     <>
-      {savedItemData && (
+      {isModalOpen && savedItemData && (
         <ItemDetailModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          item={savedItemData}
+          itemName={savedItemData.itemName}
+          composition={savedItemData.materials}
         />
       )}
 
@@ -106,25 +167,25 @@ export default function AddItemForm() {
         </div>
 
         <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-        <div className="space-y-4">
-  <Label>Item Image</Label>
-  <div className="border-2 border-dashed rounded-lg p-12 text-center relative">
-    {item.image ? (
-      <img src={item.image} alt="Uploaded" className="mx-auto max-h-40" />
-    ) : (
-      <div className="flex flex-col items-center">
-        <Upload className="w-12 h-12 text-light-clay" />
-        <p className="mt-2 text-sm text-black">or drag and drop</p>
-      </div>
-    )}
-    <input
-      type="file"
-      accept="image/*"
-      className="absolute inset-0 opacity-0 cursor-pointer"
-      onChange={handleImageUpload}
-    />
-  </div>
-</div>
+          <div className="space-y-4">
+            <Label>Item Image</Label>
+            <div className="border-2 border-dashed rounded-lg p-12 text-center relative">
+              {item && item.image ? (
+                <img src={item.image} alt="Uploaded" className="mx-auto max-h-40" />
+              ) : (
+                <div className="flex flex-col items-center">
+                  <Upload className="w-12 h-12 text-light-clay" />
+                  <p className="mt-2 text-sm text-black">or drag and drop</p>
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                className="absolute inset-0 opacity-0 cursor-pointer"
+                onChange={handleImageUpload}
+              />
+            </div>
+          </div>
 
 
           <div className="space-y-4">
@@ -134,7 +195,7 @@ export default function AddItemForm() {
               <Input
                 id="itemName"
                 placeholder="e.g. Cotton T-Shirt"
-                value={item.itemName}
+                value={item?.itemName || ""}
                 onChange={handleInputChange("itemName")}
               />
             </div>
@@ -143,7 +204,7 @@ export default function AddItemForm() {
               <Input
                 id="brand"
                 placeholder="e.g. Sustainable Brand Co."
-                value={item.brand}
+                value={item?.brand || ""}
                 onChange={handleInputChange("brand")}
               />
             </div>
@@ -155,7 +216,7 @@ export default function AddItemForm() {
               <RoundedButton onClick={handleAddMaterial}>+ Add Material</RoundedButton>
             </div>
 
-            {item.materials.map((material, index) => (
+            {item?.materials?.map((material, index) => (
               <div key={index} className="flex gap-4 items-center">
                 <div className="flex-1">
                   <Label>Material Type</Label>
@@ -236,10 +297,8 @@ export default function AddItemForm() {
 
           <div className="flex justify-end">
             <RoundedButton
-              onClick={(e) => {
-                e.preventDefault();
-                handleSaveItem(item);
-              }}
+              type="button"
+              onClick={handleSaveItem}
             >
               Save Item
             </RoundedButton>
