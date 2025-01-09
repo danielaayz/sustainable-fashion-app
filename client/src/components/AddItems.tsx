@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ChevronLeft, Minus, Plus, Upload } from "lucide-react";
 /* shadCN library to speed up frontend work */
@@ -85,6 +86,8 @@ export default function AddItemForm() {
    });
    const [isUploading, setIsUploading] = useState(false);
    const [uploadError, setUploadError] = useState<string | null>(null);
+
+   const navigate = useNavigate();
 
    // Fetch available materials on component mount
    useEffect(() => {
@@ -352,7 +355,9 @@ export default function AddItemForm() {
          {savedItemData && (
             <ItemDetailModal
                isOpen={isModalOpen}
-               onClose={() => setIsModalOpen(false)}
+               onClose={() => {
+                  setIsModalOpen(false), navigate("/wardrobe");
+               }}
                item={savedItemData}
             />
          )}
