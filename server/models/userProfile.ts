@@ -1,4 +1,4 @@
-import mongoose, { Document, Model } from "mongoose";//Importing necessary modules from mongoose
+/*import mongoose, { Document, Model } from "mongoose";//Importing necessary modules from mongoose
 import bcrypt from "bcryptjs"; //This is a library used for hashing passwords securely
 
 
@@ -56,4 +56,4 @@ userSchema.methods.comparePassword = async function (password: string): Promise<
 // The model allows us to interact with the 'users' collection in the MongoDB database.
 const User: Model<IUser> = mongoose.model<IUser>("User", userSchema);
 // Export the User model so it can be used in other files (e.g., for user registration and login)
-export default User;
+export default User; */

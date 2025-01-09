@@ -1,4 +1,4 @@
-import { Router } from "express";
+/*import { Router } from "express";
 import { MaterialController } from "../controllers/materialController.js";
 
 const router = Router();
@@ -25,4 +25,4 @@ router.put("/:id", materialController.updateMaterial);
 // DELETE: Remove a specific material
 router.delete("/:id", materialController.deleteMaterial);
 
-export default router;
+export default router; */

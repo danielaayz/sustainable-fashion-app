@@ -1,8 +1,19 @@
 FROM node:20-alpine
+
+# Set the working directory
 WORKDIR /app
+
+# Copy only package.json and package-lock.json
 COPY --chmod=0755 server/package*.json ./
+
+# Install dependencies
 RUN npm install
-RUN npm i --save-dev @types/bcryptjs @types/jsonwebtoken typescript
+
+# Copy the rest of the server directory, including server.js
 COPY --chmod=0755 server/ .
+
+# Expose the server port
 EXPOSE 3001
-CMD ["npm", "start"]
+
+# Start the server
+CMD ["node", "server.js"]

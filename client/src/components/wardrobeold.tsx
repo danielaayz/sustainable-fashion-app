@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 import { ArrowLeft, Search, SlidersHorizontal } from 'lucide-react';
 
 interface Material {
@@ -71,8 +71,8 @@ const WardrobePage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="border-b">
+      {/* Header */} */
+      /*<div className="border-b">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center">
           <div className="flex items-center space-x-4">
             <button 
@@ -89,9 +89,10 @@ const WardrobePage = () => {
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="relative">
           {/* Search Section */}
-          <div className="flex flex-col space-y-4">
+
+          /*<div className="flex flex-col space-y-4">
             {/* Search Input and Buttons */}
-            <div className="flex space-x-4">
+           /* <div className="flex space-x-4">
               <div className="relative flex-grow">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
@@ -115,14 +116,14 @@ const WardrobePage = () => {
                 <SlidersHorizontal className="w-5 h-5" />
                 <span>Filters</span>
               </button>
-            </div>
+            </div> */
 
             {/* Filters Panel*/}
-            {showFilters && (
+           /* {showFilters && (
               <div className="absolute right-0 w-64 bg-orange-200 border rounded-lg shadow-lg z-10 p-4">
                 <div className="space-y-10">
                   {/* Materials */}
-                  <div>
+                  /*<div> 
                     <h3 className="font-medium mb-3">Materials</h3>
                     <div className="space-y-2">
                       {materials.map(material => (
@@ -140,7 +141,7 @@ const WardrobePage = () => {
                   </div>
 
                   {/* Brands */}
-                  <div>
+                  /*<div>
                     <h3 className="font-medium mb-3">Brands</h3>
                     <div className="space-y-2">
                       {brands.map(brand => (
@@ -158,7 +159,7 @@ const WardrobePage = () => {
                   </div>
 
                   {/* Clear Filters */}
-                  <button
+                 /* <button
                     onClick={clearFilters}
                     className="text-sm text-gray-600 border hover:text-gray-800 flex items-center"
                   >
@@ -169,8 +170,8 @@ const WardrobePage = () => {
             )}
           </div>
 
-          {/* Items Grid */}
-          <div className="mt-8">
+          {/* Items Grid */} 
+         /* <div className="mt-8">
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     {items.map(item => (
       <div key={item.id} className="flex flex-col items-center bg-white p-6 rounded-lg">
@@ -201,4 +202,4 @@ const WardrobePage = () => {
   );
 };
 
-export default WardrobePage;
+export default WardrobePage; */

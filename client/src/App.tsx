@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
 import Footer from "./components/Footer";
-import AddItems from "./components/AddItems";
+import AddItemForm from "./components/AddItems";
 import ViewProfile from "./components/ViewProfile";
 import UserAccount from "./components/UserAccount";
 import Contact from "./components/Contact";
@@ -26,7 +26,10 @@ function App() {
             path="/profile" element={<Profile />}
           />
           <Route
-          path="/add-items" element={<AddItems />}
+            path="/add-items" element={<AddItemForm />}
+          />
+          <Route
+          path="/add-items/:id" element={<AddItemForm />}
           />
           <Route 
           path="/wardrobe" element={<WardrobePage />}
@@ -37,9 +40,6 @@ function App() {
           <Route 
           path="/UserAccount" element={<UserAccount/>}
           />
-          {/* <Route
-            path="/item-modal" element={<ItemModal />}
-          /> */}
           <Route
             path="/home" element={<Navigate to="/" replace />}
           />

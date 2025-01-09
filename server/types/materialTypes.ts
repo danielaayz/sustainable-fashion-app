@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+/*import { Request, Response } from "express";
 import { Document, Types } from "mongoose";
 
 export interface MaterialProperties {
@@ -35,4 +35,4 @@ export interface MaterialErrorResponse {
 
 export type MaterialResponseBody =
    | MaterialSuccessResponse
-   | MaterialErrorResponse;
+   | MaterialErrorResponse; */
