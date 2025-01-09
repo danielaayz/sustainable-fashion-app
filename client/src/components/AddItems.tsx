@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, Minus, Plus, Upload } from "lucide-react";
+import { ChevronLeft, Key, Minus, Plus, Upload } from "lucide-react";
 /* shadCN library to speed up frontend work */
 // import { Button } from "@/components/ui/button"
 import RoundedButton from "../components/RoundedButton";
@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import ItemDetailModal from "./ItemModal";
-import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import { LoaderFunctionArgs, useLoaderData, useParams } from "react-router-dom";
+import { materials, mockItems } from "./WardrobePage";
 
 export interface MaterialEntry {
   type: string;
@@ -36,35 +37,30 @@ interface AddItemFormProps {
 
 // taken from React Router loader function
 export async function loader({ params }: LoaderFunctionArgs) {
-  const wardrobeItem:ItemToSave = {
+  const wardrobeItem: ItemToSave = {
     id: 3,
     itemName: "Test shirt",
     brand: "Best brand",
-    materials: [{type: "Cotton", percentage: 100}],
-    
+    materials: [{ type: "Cotton", percentage: 100 }],
+
   }
   return wardrobeItem;
 }
 
-export default function AddItemForm({}) {
+export default function AddItemForm() {
   const [savedItemData, setSavedItemData] = useState<ItemToSave | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [item, setItem] = useState<ItemToSave | undefined>(undefined);
+  const params = useParams()
 
   // const wardrobeItem = useLoaderData<Awaited<ReturnType<typeof loader>>>();
   // console.log(wardrobeItem)
 
   useEffect(() => {
     // use fetch("backend-endpoint-url") to fetch data
-    const wardrobeItem: ItemToSave = {
-      id: 3,
-      itemName: "Test shirt",
-      brand: "Best brand",
-      materials: [{ type: "cotton", percentage: 100 }],
-
-    }
+    const wardrobeItem: ItemToSave | undefined = mockItems.find(({id}) => id.toString() === params.id)
     setItem(wardrobeItem)
-  }, [])
+  }, []) 
 
   console.log(item)
 
@@ -228,11 +224,9 @@ export default function AddItemForm({}) {
                       <SelectValue placeholder="Select material..." />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="cotton">Cotton</SelectItem>
-                      <SelectItem value="wool">Wool</SelectItem>
-                      <SelectItem value="polyester">Polyester</SelectItem>
-                      <SelectItem value="nylon">Nylon</SelectItem>
-                      <SelectItem value="silk">Silk</SelectItem>
+                      {Array.from(materials.entries()).map(
+                        ([key, value]) => <SelectItem key={key} value={key}>{value}</SelectItem>
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
