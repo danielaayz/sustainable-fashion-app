@@ -13,6 +13,11 @@ export interface Material {
 export interface CompositionMaterial {
    type: string;
    percentage: number;
+   properties: {
+      pros: string[];
+      cons: string[];
+   };
+   environmentalImpact: string[];
 }
 
 export interface MaterialResponse {
