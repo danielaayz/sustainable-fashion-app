@@ -43,8 +43,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     itemName: "Test shirt",
     brand: "Best brand",
     materials: [{ type: "Cotton", percentage: 100 }],
-
-  }
+  };
   return wardrobeItem;
 }
 
@@ -55,51 +54,69 @@ export default function AddItemForm() {
   const [item, setItem] = useState<ItemToSave>({
     itemName: "",
     brand: "",
-    materials: [{ type: "", percentage: 0 }] // Initialize with one empty material
-  });  const params = useParams()
-
-  // const wardrobeItem = useLoaderData<Awaited<ReturnType<typeof loader>>>();
-  // console.log(wardrobeItem)
+    materials: [{ type: "", percentage: 0 }], // Initialize with one empty material
+  });
+  const params = useParams();
 
   useEffect(() => {
     // use fetch("backend-endpoint-url") to fetch data
-    const wardrobeItem: ItemToSave | undefined = mockItems.find(({id}) => id.toString() === params.id)
+    const wardrobeItem: ItemToSave | undefined = mockItems.find(
+      ({ id }) => id.toString() === params.id
+    );
     if (wardrobeItem) {
-      setItem(wardrobeItem)
+      setItem(wardrobeItem);
     }
-  }, [])
-  console.log(item)
+  }, []);
+  console.log(item);
 
-  // save item data and open Modal
-  const handleSaveItem = () => {
+  // Save item data and open Modal with API call
+  const handleSaveItem = async () => {
     if (!item) {
-      return
+      return;
     }
+
     const totalPercentage = item.materials.reduce(
-      (sum, material) => sum + material.percentage, 0
+      (sum, material) => sum + material.percentage,
+      0
     );
     if (totalPercentage !== 100) {
       alert("Total material percentage must be 100%!");
       return;
     }
 
-    console.log("Saving the following item:", item);
-    setSavedItemData(item);
-    setIsModalOpen(true);
-  };
+    try {
+      const response = await fetch("http://localhost:3001/api/items", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item),
+      });
 
+      if (!response.ok) {
+        throw new Error("Failed to save item");
+      }
+
+      const savedItem = await response.json();
+      console.log("Saved item:", savedItem);
+
+      setSavedItemData(savedItem);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error saving item:", error);
+      alert("Failed to save item.");
+    }
+  };
 
   const handleInputChange =
     (attributeName: keyof ItemToSave) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (!item) {
-        return
+        return;
       }
       setItem({ ...item, [attributeName]: e.target.value });
     };
 
   const handleMaterialChange = (index: number, key: keyof MaterialEntry, value: any) => {
     if (!item) {
-      return
+      return;
     }
     const updatedMaterials = [...item.materials];
     updatedMaterials[index] = {
@@ -111,7 +128,7 @@ export default function AddItemForm() {
 
   const handleAddMaterial = () => {
     if (!item) {
-      return
+      return;
     }
     setItem({
       ...item,
@@ -121,7 +138,7 @@ export default function AddItemForm() {
 
   const handleRemoveMaterial = (index: number) => {
     if (!item) {
-      return
+      return;
     }
     const updatedMaterials = item.materials.filter((_, i) => i !== index);
     setItem({ ...item, materials: updatedMaterials });
@@ -129,7 +146,7 @@ export default function AddItemForm() {
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!item) {
-      return
+      return;
     }
     const file = e.target.files?.[0];
     if (file) {
@@ -165,7 +182,9 @@ export default function AddItemForm() {
 
         <div>
           <h1 className="text-2xl font-semibold text-black">Add New Item</h1>
-          <p className="mt-1 text-sm text-black">Add details about your new clothing item</p>
+          <p className="mt-1 text-sm text-black">
+            Add details about your new clothing item
+          </p>
         </div>
 
         <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
@@ -189,7 +208,6 @@ export default function AddItemForm() {
             </div>
           </div>
 
-
           <div className="space-y-4">
             <h2 className="text-lg font-medium">Item Details</h2>
             <div>
@@ -211,13 +229,11 @@ export default function AddItemForm() {
               />
             </div>
           </div>
-
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-medium">Material Composition</h2>
               <RoundedButton onClick={handleAddMaterial}>+ Add Material</RoundedButton>
             </div>
-
             {item?.materials?.map((material, index) => (
               <div key={index} className="flex gap-4 items-center">
                 <div className="flex-1">
@@ -236,7 +252,6 @@ export default function AddItemForm() {
                     </SelectContent>
                   </Select>
                 </div>
-
                 <div className="w-48">
                   <Label>Percentage</Label>
                   <div className="flex items-center gap-2">
@@ -285,7 +300,6 @@ export default function AddItemForm() {
               </div>
             ))}
           </div>
-
           <div className="bg-gray-50 p-4 rounded-lg">
             <h3 className="font-medium mb-2">Tips for adding items:</h3>
             <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
@@ -294,7 +308,6 @@ export default function AddItemForm() {
               <li>Clear, well-lit photos will help you identify items easily</li>
             </ul>
           </div>
-
           <div className="flex justify-end">
             <RoundedButton
               type="button"

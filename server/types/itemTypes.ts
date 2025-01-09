@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+/*import { Document } from "mongoose";
 import mongoose from "mongoose";
 
 export interface IMaterial {
@@ -13,4 +13,4 @@ export interface IItem extends Document {
    materials: IMaterial[];
    createdAt: Date;
    updatedAt: Date;
-}
+} */

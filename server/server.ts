@@ -1,4 +1,4 @@
-import express from "express";
+/*import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
@@ -93,4 +93,4 @@ process.on("unhandledRejection", (err: Error) => {
 });
 
 // Initialize the server
-startServer();
+startServer(); */
