@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ChevronLeft, Minus, Plus, Upload } from "lucide-react";
 /* shadCN library to speed up frontend work */
@@ -20,6 +20,24 @@ import { storage } from "../firebase.js";
 import { CompositionMaterial, Material } from "../types/Material";
 
 // Define the structure for each material entry
+
+interface MaterialOption {
+   name: string;
+   id: string;
+}
+
+interface MaterialData {
+   _id: string;
+   name: string;
+   category: string;
+   sustainabilityScore: number;
+   scoreDescription: string;
+   properties: {
+      pros: string[];
+      cons: string[];
+   };
+   environmentalImpact: string[];
+}
 export interface MaterialEntry extends CompositionMaterial {
    type: string;
    percentage: number;
@@ -27,6 +45,7 @@ export interface MaterialEntry extends CompositionMaterial {
       pros: string[];
       cons: string[];
    };
+   environmentalImpact: string[];
 }
 
 interface ItemWithSustainability extends ItemToSave {
@@ -47,6 +66,7 @@ export default function AddItemForm() {
    const [savedItemData, setSavedItemData] =
       useState<ItemWithSustainability | null>(null);
    const [isModalOpen, setIsModalOpen] = useState(false);
+   const [materials, setMaterials] = useState<MaterialOption[]>([]);
    const [item, setItem] = useState<ItemToSave>({
       itemName: "",
       brand: "",
@@ -54,7 +74,11 @@ export default function AddItemForm() {
          {
             type: "",
             percentage: 0,
-            properties: { pros: [], cons: [] },
+            properties: {
+               pros: [],
+               cons: [],
+            },
+            environmentalImpact: [],
          },
       ],
       image: "",
@@ -62,21 +86,61 @@ export default function AddItemForm() {
    const [isUploading, setIsUploading] = useState(false);
    const [uploadError, setUploadError] = useState<string | null>(null);
 
+   // Fetch available materials on component mount
+   useEffect(() => {
+      const fetchMaterials = async () => {
+         try {
+            const response = await axios.get<{ materials: MaterialData[] }>(
+               "http://localhost:3001/api/materials"
+            );
+            const materialOptions = response.data.materials.map((material) => ({
+               name: material.name,
+               id: material._id,
+            }));
+            setMaterials(materialOptions);
+         } catch (error) {
+            console.error("Error fetching materials:", error);
+         }
+      };
+
+      fetchMaterials();
+   }, []);
+
    // Function to fetch material properties from backend
    const fetchMaterialProperties = async (materialType: string) => {
       try {
-         const response = await axios.get<{ material: Material }>(
+         const response = await axios.get<{ material: MaterialData }>(
             `http://localhost:3001/api/materials/${materialType}`
          );
+         const { properties, environmentalImpact } = response.data.material;
          return {
-            pros: response.data.material.properties.pros,
-            cons: response.data.material.properties.cons,
+            pros: properties.pros,
+            cons: properties.cons,
+            environmentalImpact,
          };
       } catch (error) {
          console.error(`Error fetching properties for ${materialType}:`, error);
-         return { pros: [], cons: [] };
+         return {
+            pros: [],
+            cons: [],
+            environmentalImpact: [],
+         };
       }
    };
+
+   // const saveItemToDatabase = async (itemData: ItemWithSustainability) => {
+   //    try {
+   //       const response = await axios.post(
+   //          "http://localhost:3001/api/items",
+   //          itemData
+   //       );
+   //       console.log("Item saved successfully:", response.data);
+   //       // You might want to redirect to a success page or show a success message
+   //    } catch (error) {
+   //       console.error("Error saving item:", error);
+   //       // Handle error - show error message to user
+   //    }
+   // };
 
    const handleSaveItem = async (itemToSave: ItemToSave) => {
       try {
@@ -96,15 +160,23 @@ export default function AddItemForm() {
             composition: itemToSave.materials,
          });
 
+         // Find the material with the highest percentage for environmental impact
+         const primaryMaterial = [...itemToSave.materials].sort(
+            (a, b) => b.percentage - a.percentage
+         )[0];
+
          const itemWithSustainability: ItemWithSustainability = {
             ...itemToSave,
-            sustainabilityAnalysis: response.data.analysis,
+            sustainabilityAnalysis: {
+               ...response.data.analysis,
+               environmentalImpact: primaryMaterial.environmentalImpact || [],
+            },
          };
 
-         console.log(
-            "Saving item with sustainability data:",
-            itemWithSustainability
-         );
+         // Save to database
+         //await saveItemToDatabase(itemWithSustainability);
+
+         console.log("Item with sustainability data:", itemWithSustainability);
          setSavedItemData(itemWithSustainability);
          setIsModalOpen(true);
          /*
@@ -153,12 +225,15 @@ export default function AddItemForm() {
          [key]: value,
       };
 
-      // Fetch properties when material type changes
       if (key === "type" && typeof value === "string") {
-         const properties = await fetchMaterialProperties(value);
+         const materialData = await fetchMaterialProperties(value);
          updatedMaterial = {
             ...updatedMaterial,
-            properties,
+            properties: {
+               pros: materialData.pros,
+               cons: materialData.cons,
+            },
+            environmentalImpact: materialData.environmentalImpact,
          };
       }
 
@@ -174,7 +249,11 @@ export default function AddItemForm() {
             {
                type: "",
                percentage: 0,
-               properties: { pros: [], cons: [] },
+               properties: {
+                  pros: [],
+                  cons: [],
+               },
+               environmentalImpact: [],
             },
          ],
       });
@@ -398,13 +477,13 @@ export default function AddItemForm() {
                                  <SelectValue placeholder="Select material..." />
                               </SelectTrigger>
                               <SelectContent>
-                                 <SelectItem value="cotton">Cotton</SelectItem>
-                                 <SelectItem value="wool">Wool</SelectItem>
-                                 <SelectItem value="polyester">
-                                    Polyester
-                                 </SelectItem>
-                                 <SelectItem value="nylon">Nylon</SelectItem>
-                                 <SelectItem value="silk">Silk</SelectItem>
+                                 {materials.map((mat) => (
+                                    <SelectItem
+                                       key={mat.id}
+                                       value={mat.name.toLowerCase()}>
+                                       {mat.name}
+                                    </SelectItem>
+                                 ))}
                               </SelectContent>
                            </Select>
                         </div>
