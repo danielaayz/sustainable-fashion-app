@@ -10,7 +10,7 @@ export const materials = new Map([
     ["polyester", "Polyester"],
     ["linen", "Linen"],
     ["wool", "Wool"],
-    ['whatevs', ' Mehheheheh']
+    ['silk', 'Silk']
 ]);
 
 interface Material {
