@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { ChevronLeft, Minus, Plus, Upload } from "lucide-react";
 /* shadCN library to speed up frontend work */
 // import { Button } from "@/components/ui/button"
@@ -16,37 +17,121 @@ import { ItemToSave } from "../types/ItemTypes.js";
 import ItemDetailModal from "./ItemModal";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase.js";
+import { CompositionMaterial, Material } from "../types/Material";
 
 // Define the structure for each material entry
-export interface MaterialEntry {
+export interface MaterialEntry extends CompositionMaterial {
    type: string;
    percentage: number;
+   properties: {
+      pros: string[];
+      cons: string[];
+   };
 }
 
-// export interface ItemToSave {
-//    itemName: string;
-//    brand: string;
-//    materials: MaterialEntry[];
-//    image?: string;
-// }
+interface ItemWithSustainability extends ItemToSave {
+   sustainabilityAnalysis: {
+      sustainabilityScore: number;
+      scoreDescription: string;
+      environmentalImpact: string[];
+      composition: Array<{
+         type: string;
+         percentage: number;
+         material: Material;
+      }>;
+   };
+}
 
 // Main component for adding a new item
 export default function AddItemForm() {
-   const [savedItemData, setSavedItemData] = useState<ItemToSave | null>(null);
+   const [savedItemData, setSavedItemData] =
+      useState<ItemWithSustainability | null>(null);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [item, setItem] = useState<ItemToSave>({
       itemName: "",
       brand: "",
-      materials: [{ type: "", percentage: 0 }],
+      materials: [
+         {
+            type: "",
+            percentage: 0,
+            properties: { pros: [], cons: [] },
+         },
+      ],
       image: "",
    });
    const [isUploading, setIsUploading] = useState(false);
    const [uploadError, setUploadError] = useState<string | null>(null);
 
-   const handleSaveItem = (itemToSave: ItemToSave) => {
-      console.log("Saving the following item:", itemToSave);
-      setSavedItemData(itemToSave);
-      setIsModalOpen(true);
+   // Function to fetch material properties from backend
+   const fetchMaterialProperties = async (materialType: string) => {
+      try {
+         const response = await axios.get<{ material: Material }>(
+            `http://localhost:3001/api/materials/${materialType}`
+         );
+         return {
+            pros: response.data.material.properties.pros,
+            cons: response.data.material.properties.cons,
+         };
+      } catch (error) {
+         console.error(`Error fetching properties for ${materialType}:`, error);
+         return { pros: [], cons: [] };
+      }
+   };
+
+   const handleSaveItem = async (itemToSave: ItemToSave) => {
+      try {
+         // Calculate sustainability for the entire item
+         const response = await axios.post<{
+            analysis: {
+               sustainabilityScore: number;
+               scoreDescription: string;
+               environmentalImpact: string[];
+               composition: Array<{
+                  type: string;
+                  percentage: number;
+                  material: Material;
+               }>;
+            };
+         }>("http://localhost:3001/api/sustainability/calculate", {
+            composition: itemToSave.materials,
+         });
+
+         const itemWithSustainability: ItemWithSustainability = {
+            ...itemToSave,
+            sustainabilityAnalysis: response.data.analysis,
+         };
+
+         console.log(
+            "Saving item with sustainability data:",
+            itemWithSustainability
+         );
+         setSavedItemData(itemWithSustainability);
+         setIsModalOpen(true);
+         /*
+         // Calculate sustainability
+         const response = await axios.post(
+            "http://localhost:3001/api/sustainability/calculate",
+            {
+               composition: itemToSave.materials,
+            }
+         );
+
+         // Combine item data with sustainability data
+         const itemWithSustainability = {
+            ...itemToSave,
+            sustainabilityAnalysis: response.data.analysis,
+         };
+
+         console.log(
+            "Saving item with sustainability data:",
+            itemWithSustainability
+         );
+         setSavedItemData(itemWithSustainability);
+         setIsModalOpen(true);
+         */
+      } catch (error) {
+         console.error("Error calculating sustainability:", error);
+      }
    };
 
    const handleInputChange =
@@ -55,22 +140,43 @@ export default function AddItemForm() {
          setItem({ ...item, [attributeName]: e.target.value });
       };
 
-   const handleMaterialChange = (
+   const handleMaterialChange = async (
       index: number,
       key: keyof MaterialEntry,
       value: any
    ) => {
       const updatedMaterials = [...item.materials];
-      updatedMaterials[index] = {
-         ...updatedMaterials[index],
-         [key]: value, // Spread and assign dynamically
+      const currentMaterial = updatedMaterials[index];
+
+      let updatedMaterial = {
+         ...currentMaterial,
+         [key]: value,
       };
+
+      // Fetch properties when material type changes
+      if (key === "type" && typeof value === "string") {
+         const properties = await fetchMaterialProperties(value);
+         updatedMaterial = {
+            ...updatedMaterial,
+            properties,
+         };
+      }
+
+      updatedMaterials[index] = updatedMaterial as MaterialEntry;
       setItem({ ...item, materials: updatedMaterials });
    };
+
    const handleAddMaterial = () => {
       setItem({
          ...item,
-         materials: [...item.materials, { type: "", percentage: 0 }],
+         materials: [
+            ...item.materials,
+            {
+               type: "",
+               percentage: 0,
+               properties: { pros: [], cons: [] },
+            },
+         ],
       });
    };
 
