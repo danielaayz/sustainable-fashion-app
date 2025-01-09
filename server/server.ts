@@ -6,7 +6,9 @@ import userRoutes from "./routes/userRoutes.js";
 import connectDB from "./db/connection.js";
 import materialsRouter from "./routes/materialsRoutes.js";
 import sustainabilityRoutes from "./routes/sustainabilityRoutes.js";
-import itemRouter from "./routes/ItemRoutes.js";
+import itemRouter from "./routes/itemRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+import rateLimit from "express-rate-limit";
 
 // Load environment variables
 dotenv.config();
@@ -37,8 +39,20 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json());
 
+const limiter = rateLimit({
+   windowMs: 15 * 60 * 1000, // 15 minutes
+   max: 100, // IP till 100 requests per windowMs
+   message: "Too many requests from this IP, please try again after 15 minutes",
+});
+
+app.use((req, res, next) => {
+   console.log(`${req.method} ${req.path}`);
+   next();
+});
+
 // Route Setup
 app.use("/api/users", userRoutes);
+app.use("/api/upload", limiter, uploadRoutes);
 app.use("/api/materials", materialsRouter);
 app.use("/api/sustainability", sustainabilityRoutes);
 app.use("/api/items", itemRouter);
