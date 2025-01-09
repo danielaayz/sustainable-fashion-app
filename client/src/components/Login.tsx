@@ -49,7 +49,7 @@ function Login() {
       if (response.ok) {
         localStorage.setItem('token', data.token)
         localStorage.setItem('user', JSON.stringify(data.user))
-        navigate('/')
+        navigate('/profile')
       } else {
         setErrors(data.message)
       }
@@ -145,8 +145,14 @@ function Login() {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md bg-orchid-600 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-orchid-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orchid-600">
-                    Sign in
+                    className="flex w-full justify-center rounded-md bg-gunmetalgray px-3 py-1.5 
+                    text-sm font-bold leading-7 text-black 
+                    shadow-lg hover:shadow-xl hover:bg-gray-700 
+                    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 
+                    focus-visible:outline-gunmetalgray border border-charcoal 
+                    transform hover:-translate-y-0.5 transition-all duration-200"
+       >
+                     Sign in
                   </button>
                 </div>
               </form>
@@ -159,8 +165,13 @@ function Login() {
                 </div>
 
                <Link to="/register"
-                  className="text-center mt-6 flex w-full justify-center rounded-md border border-purple-600 bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-purple-700 shadow-sm hover:bg-orchid-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orchid-600">
-                  Sign up
+            className="flex w-full justify-center rounded-md bg-lightgray px-3 py-1.5 
+            text-sm font-semibold leading-6 text-black 
+            shadow-lg hover:shadow-xl hover:bg-gray-700 
+            focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 
+            focus-visible:outline-lightgray border-2 border-gunmetalgray 
+            transform hover:-translate-y-0.5 transition-all duration-200"
+>                            Sign up
                 </Link>
               </div>
             </div>
