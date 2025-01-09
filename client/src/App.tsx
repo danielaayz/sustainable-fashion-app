@@ -26,7 +26,7 @@ function App() {
             path="/profile" element={<Profile />}
           />
           <Route
-          path="/add-items" element={<AddItems />}
+          path="/add-items/:id" element={<AddItems />}
           />
           <Route 
           path="/wardrobe" element={<WardrobePage />}
@@ -37,9 +37,6 @@ function App() {
           <Route 
           path="/UserAccount" element={<UserAccount/>}
           />
-          {/* <Route
-            path="/item-modal" element={<ItemModal />}
-          /> */}
           <Route
             path="/home" element={<Navigate to="/" replace />}
           />
