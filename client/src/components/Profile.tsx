@@ -7,7 +7,7 @@ const profile_grid_items = [
       detail: "Add new clothing items to your wardrobe",
       icon: <Plus className="w-12 h-12 text-[#3a5246]" />,
       cta_button: "Add New Item",
-      link: "/add-items"
+      link: "/AddItemForm"
    },
    {
       name: "View Wardrobe",
@@ -21,7 +21,7 @@ const profile_grid_items = [
       detail: "Manage your account and view stats",
       icon: <User className="w-12 h-12 text-[#3a5246]" />,
       cta_button: "View Profile",
-      link: "/#"
+      link: "/viewProfile"
    },
 ];
 
