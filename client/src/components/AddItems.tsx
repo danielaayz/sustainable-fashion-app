@@ -4,6 +4,8 @@ import { ChevronLeft, Key, Minus, Plus, Upload } from "lucide-react";
 // import { Button } from "@/components/ui/button"
 import RoundedButton from "../components/RoundedButton";
 import { Input } from "@/components/ui/input";
+import { LoaderFunctionArgs, useLoaderData, useParams, useNavigate } from "react-router-dom";
+
 import {
   Select,
   SelectContent,
@@ -13,7 +15,6 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import ItemDetailModal from "./ItemModal";
-import { LoaderFunctionArgs, useLoaderData, useParams } from "react-router-dom";
 import { materials, mockItems } from "./WardrobePage";
 
 export interface MaterialEntry {
@@ -48,10 +49,14 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function AddItemForm() {
+  const navigate = useNavigate();
   const [savedItemData, setSavedItemData] = useState<ItemToSave | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [item, setItem] = useState<ItemToSave | undefined>(undefined);
-  const params = useParams()
+  const [item, setItem] = useState<ItemToSave>({
+    itemName: "",
+    brand: "",
+    materials: [{ type: "", percentage: 0 }] // Initialize with one empty material
+  });  const params = useParams()
 
   // const wardrobeItem = useLoaderData<Awaited<ReturnType<typeof loader>>>();
   // console.log(wardrobeItem)
@@ -59,9 +64,10 @@ export default function AddItemForm() {
   useEffect(() => {
     // use fetch("backend-endpoint-url") to fetch data
     const wardrobeItem: ItemToSave | undefined = mockItems.find(({id}) => id.toString() === params.id)
-    setItem(wardrobeItem)
-  }, []) 
-
+    if (wardrobeItem) {
+      setItem(wardrobeItem)
+    }
+  }, [])
   console.log(item)
 
   // save item data and open Modal
@@ -149,7 +155,7 @@ export default function AddItemForm() {
       <div className="max-w-2xl mx-auto p-6 space-y-8">
         <div>
           <a
-            href="/home"
+            href="/profile"
             className="inline-flex p-2 rounded bg-soft-green items-center text-sm text-black hover:text-mossy-green"
           >
             <ChevronLeft className="w-4 h-4 mr-1" />

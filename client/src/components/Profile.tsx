@@ -7,7 +7,7 @@ const profile_grid_items = [
       detail: "Add new clothing items to your wardrobe",
       icon: <Plus className="w-12 h-12 text-[#3a5246]" />,
       cta_button: "Add New Item",
-      link: "/AddItemForm"
+      link: "/add-items/${item.id}"
    },
    {
       name: "View Wardrobe",
