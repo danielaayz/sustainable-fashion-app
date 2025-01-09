@@ -17,6 +17,7 @@ export interface CompositionMaterial {
       pros: string[];
       cons: string[];
    };
+   environmentalImpact: string[];
 }
 
 export interface MaterialResponse {
