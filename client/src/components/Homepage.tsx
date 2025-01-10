@@ -14,11 +14,12 @@ export default function Homepage() {
                </h1>
                <div className="mt-6 max-w-xl lg:mt-0 xl:col-end-1 xl:row-start-1">
                   <p className="text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
-                     Anim aute id magna aliqua ad ad non deserunt sunt. Qui
-                     irure qui lorem cupidatat commodo. Elit sunt amet fugiat
-                     veniam occaecat fugiat aliqua. Anim aute id magna aliqua ad
-                     ad non deserunt sunt. Qui irure qui lorem cupidatat
-                     commodo.
+                     Making eco-friendly fashion decisions can be challenging,
+                     but our app is here to help. With sustainability scores for
+                     clothing materials and a personal wardrobe tracker, we
+                     empower you to align your style with your values. Join us
+                     in creating a more sustainable future, one outfit at a
+                     time.
                   </p>
                   <div className="mt-10 flex items-center gap-x-6">
                      <RoundedButton />
