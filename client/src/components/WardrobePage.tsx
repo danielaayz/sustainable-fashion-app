@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Search, Filter, X, Info, HandMetal } from "lucide-react";
+import { ArrowLeft, Search, X, Info } from "lucide-react";
 // import { Alert } from '@/components/ui/alert';
 
 //
