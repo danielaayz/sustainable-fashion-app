@@ -1,14 +1,12 @@
 ----------
 
 
-# Sustainable Fashion App - Name TBD
+# Sustainable Fashion App
 
-![fashion-app-banner]()
+![homepage](https://github.com/user-attachments/assets/2fbeb45d-8563-4583-b4d5-517c6e05bff8)
 
 
-Visit the deployed site: Link Goes Here
-
-Our plan is to create .....
+Our presentation, explaining the problem space, our proposed solution, our challenges and retrospective: https://www.canva.com/design/DAGbW7jVyNE/3chpO6fZoTtYuk84-gFbXw/view?utm_content=DAGbW7jVyNE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h524901dcf6
 
 
 ## CONTENTS
